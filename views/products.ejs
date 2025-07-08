@@ -11,19 +11,22 @@
                     <form action="/app/products" method="post">
                         <div class="mb-3">
                             <label for="name" class="form-label fw-bold">Name Product</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Masukan Nama Product" required>
                         </div>
                         <div class="mb-3">
-                            <label for="description" class="form-label fw-bold">Price</label>
-                            <input type="number" class="form-control" id="price" name="price" rows="3" required></textarea>
+                        <label for="price" class="form-label fw-bold">Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" class="form-control" id="price" name="price" placeholder="0" required>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label fw-bold">Stock</label>
-                            <input type="number" class="form-control" id="stock" name="stock" rows="3" required></textarea>
+                            <input type="number" class="form-control" id="stock" name="stock" placeholder="Masukan Jumlah Stock" required></input>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label fw-bold">Category ID</label>
-                            <input type="number" class="form-control" id="categoryid" name="categoryid" rows="3" required></textarea>
+                            <input type="number" class="form-control" id="categoryid" name="categoryid" placeholder="Masukan Category ID" required></input>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Create Product</button>
                     </form>

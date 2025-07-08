@@ -2,7 +2,7 @@ import { Router } from "express";
 import { create, destroy, indexPage, update} from "../controllers/productController";
 
 export const productRouter = Router();
-productRouter.get("/", indexPage as any)
+productRouter.get("/", indexPage)
 productRouter.post("/", create)
 productRouter.post("/update/:id", update)
 productRouter.post("/delete/:id", destroy)
