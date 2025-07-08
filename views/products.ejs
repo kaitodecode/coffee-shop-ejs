@@ -60,7 +60,7 @@
                                     </button>
                                     
                                     <!-- Delete Form -->
-                                    <form action="/products/delete/<%= Product.id %>" method="post" class="d-inline">
+                                    <form action="/app/products/delete/<%= Product.id %>" method="post" class="d-inline">
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Product?')">
                                             <i class="bi bi-trash"></i> Delete
                                         </button>
@@ -75,7 +75,7 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="/products/update/<%= Product.id %>" method="post">
+                                                    <form action="/app/products/update/<%= Product.id %>" method="post">
                                                         <div class="mb-3">
                                                             <label for="updateName<%= Product.id %>" class="form-label fw-bold">Name Product</label>
                                                             <input type="text" class="form-control" id="updateName<%= Product.id %>" name="name" value="<%= Product.name %>" required>

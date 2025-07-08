@@ -1,6 +1,8 @@
 import { Router } from "express";
-import { create, indexPage} from "../controllers/productController";
+import { create, destroy, indexPage, update} from "../controllers/productController";
 
 export const productRouter = Router();
-productRouter.get("/app/products", indexPage as any)
-productRouter.post("/app/products", create)
+productRouter.get("/", indexPage as any)
+productRouter.post("/", create)
+productRouter.post("/update/:id", update)
+productRouter.post("/delete/:id", destroy)
