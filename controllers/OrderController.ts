@@ -67,7 +67,8 @@ export const orderPage = async (req: express.Request, res: express.Response) => 
         res.render('order', {
             products: filteredProducts,
             categories: categories.data,
-            selectedCategoryId: selectedCategoryId
+            selectedCategoryId: selectedCategoryId,
+            path: "/app/orders"
         });
 
     } catch (error) {

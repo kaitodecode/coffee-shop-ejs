@@ -6,9 +6,11 @@ const API_URL = "http://localhost:5272/api/Product";
 export const indexPage = async (req: Request, res: Response) => {
     const token = req.cookies.token;
     const result = await handleGetProducts(token)
-    const products = result.data.data|| []
-    console.log(products)
-    res.render("products", { products })
+    const products = result.data.data || []
+    res.render("products", { 
+        products,
+        path: req.path  // Add this line
+    })
 }
 
 export const create = async (req: Request, res: Response) => {

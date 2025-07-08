@@ -17,27 +17,31 @@ const fetcher = async (url: string, options: RequestInit = {}) => {
 
     // Make the API request
     const response = await fetch(url, fetchOptions);
-    
-    console.log(response)
+
     // Handle different response types
     const contentType = response.headers.get('content-type');
     let data;
-    
-    if (contentType && contentType.includes('application/problem+json')) {
-      data = await response.json();
-      throw new Error(data.detail || `HTTP error! status: ${response.status}`);
-    }
 
+    // Check if response is ok before trying to parse
     if (!response.ok) {
+      if (contentType && contentType.includes('application/problem+json')) {
+        data = await response.json();
+        throw new Error(data.detail || `HTTP error! status: ${response.status}`);
+      }
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    // Parse and return the JSON response
-    data = await response.json();
+    try {
+      // Parse JSON response
+      data = await response.json();
+    } catch (parseError) {
+      throw new Error('Failed to parse JSON response');
+    }
+
     return {
       data,
       status: response.status,
-      ok: response.ok
+      ok: true
     };
 
   } catch (error: any) {
