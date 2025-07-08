@@ -1,9 +1,6 @@
-const express = require('express');
-const fetch = require('node-fetch').default;  // Menggunakan fetch
-const router = express.Router();
-
+import express from 'express';
 // Menangani rute untuk halaman order
-router.get("/", async (req, res) => {
+export const orderPage = async (req: express.Request, res: express.Response) => {
     try {
         // Ambil token dari cookie
         const token = req.cookies.token;
@@ -63,7 +60,7 @@ router.get("/", async (req, res) => {
         let filteredProducts = productData.data;
 
         if (selectedCategoryId) {
-            filteredProducts = productData.data.filter(product => product.categoryId == selectedCategoryId);
+            filteredProducts = productData.data.filter((product: any) => product.categoryId == selectedCategoryId);
         }
 
         // Render halaman order dengan kategori dan produk yang sesuai
@@ -77,6 +74,6 @@ router.get("/", async (req, res) => {
         console.error('Error fetching data:', error);
         res.status(500).send('Internal Server Error');
     }
-});
+}
 
-module.exports = router;
+

@@ -4,7 +4,7 @@ import { layoutMiddleware } from "./middlewares/layout_middleware";
 import layout from "express-ejs-layouts";
 import path from "path";
 import { authRouter, categoryRouter, productRouter, errorRouter } from "./routes";      
-import { pageNotFound } from "@controllers/errorController";
+import { pageNotFound } from "./controllers/errorController";
 
 const app = express()
 const PORT = 3000
