@@ -1,6 +1,7 @@
-const { default: fetcher } = require("../helper/fetcher");
+import { default as fetcher } from "../helper/fetcher";
+import { Request, Response } from "express";
 
-exports.indexPage = async (req, res) => {
+export const indexPage = async (req: Request, res: Response) => {
     const token = req.cookies.token;
     const result = await handleGetProducts(token)
     const products = result.data.data|| []
@@ -8,7 +9,7 @@ exports.indexPage = async (req, res) => {
     res.render("products", { products })
 }
 
-exports.create = async (req, res) => {
+export const create = async (req: Request, res: Response) => {
     const token = req.cookies.token;
     const result = await handleCreateProducts(token, req.body)
 
@@ -20,7 +21,7 @@ exports.create = async (req, res) => {
     }
 }
 
-const handleGetProducts = async (token) => {
+const handleGetProducts = async (token: string) => {
 
    const response = await fetcher('http://localhost:5272/api/product', {
         method: 'GET',
@@ -31,7 +32,7 @@ const handleGetProducts = async (token) => {
     return response;
 }
 
-const handleCreateProducts = async (token, body) => {
+const handleCreateProducts = async (token: string, body: any) => {
     const response = await fetch('http://localhost:5272/api/Product', {
         headers: {
             'Authorization': `Bearer ${token}`,

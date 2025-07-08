@@ -1,4 +1,4 @@
-const fetcher = async (url, options = {}) => {
+const fetcher = async (url: string, options: RequestInit = {}) => {
   try {
     // Set default headers if not provided
     const defaultHeaders = {
@@ -40,7 +40,7 @@ const fetcher = async (url, options = {}) => {
       ok: response.ok
     };
 
-  } catch (error) {
+  } catch (error: any) {
     // Return error object if request fails
     return {
       error: error.message,
@@ -51,44 +51,3 @@ const fetcher = async (url, options = {}) => {
 };
 
 export default fetcher;
-
-// Example usage for CRUD operations:
-
-// CREATE - POST example
-// const createUser = async (userData) => {
-//   const response = await fetcher('https://api.example.com/users', {
-//     method: 'POST',
-//     body: JSON.stringify(userData)
-//   });
-//   return response;
-// };
-
-// READ - GET example
-// const getUser = async (userId) => {
-//   const response = await fetcher(`https://api.example.com/users/${userId}`);
-//   return response;
-// };
-
-// UPDATE - PUT example
-// const updateUser = async (userId, userData) => {
-//   const response = await fetcher(`https://api.example.com/users/${userId}`, {
-//     method: 'PUT',
-//     body: JSON.stringify(userData)
-//   });
-//   return response;
-// };
-
-// DELETE example
-// const deleteUser = async (userId) => {
-//   const response = await fetcher(`https://api.example.com/users/${userId}`, {
-//     method: 'DELETE'
-//   });
-//   return response;
-// };
-
-/* Usage examples:
-const newUser = await createUser({ name: 'John Doe', email: 'john@example.com' });
-const user = await getUser(123);
-const updatedUser = await updateUser(123, { name: 'Jane Doe' });
-const deletedUser = await deleteUser(123);
-*/

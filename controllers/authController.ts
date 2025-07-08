@@ -1,6 +1,7 @@
-const { default: fetcher } = require("../helper/fetcher");
+import { default as fetcher } from "../helper/fetcher";
+import { Request, Response } from "express";
 
-exports.login = async (req, res) => {
+export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     if (!email || !password) {
         return res.status(400).json({ message: 'Email and password are required' });
@@ -15,14 +16,14 @@ exports.login = async (req, res) => {
         res.cookie('token', result.data.token, {
             httpOnly: true,       // Tidak bisa diakses dari JS frontend
             secure: true,         // Hanya dikirim lewat HTTPS
-            sameSite: 'Strict',   // Cegah CSRF
+            sameSite: 'strict',   // Cegah CSRF
             maxAge: 24 * 60 * 60 * 1000 // 1 hari dalam ms
         });
         res.redirect("/app/categories")
     }
 };
 
-exports.register = async (req, res) => {
+export const register = async (req: Request, res: Response) => {
     const { email, password, name, isAdmin } = req.body;
     
     // Validate required fields
@@ -53,12 +54,11 @@ exports.register = async (req, res) => {
     }
 };
 
-exports.loginPage = (_, res) => res.render("login")
-exports.registerPage = (_, res) => res.render("register")
+export const loginPage = (req: Request, res: Response) => res.render("login")
+export const registerPage = (req: Request, res: Response) => res.render("register")
+export const errorPage = (req: Request, res: Response) => res.render("error")
 
-
-
-const handleLogin = async (userData) => {
+const handleLogin = async (userData: any) => {
     const response = await fetcher('http://localhost:5272/api/Auth/login', {
         method: 'POST',
         body: JSON.stringify(userData)
@@ -66,7 +66,7 @@ const handleLogin = async (userData) => {
     return response;
 };
 
-const handleRegister = async (userData) => {
+const handleRegister = async (userData: any) => {
     const response = await fetch('http://localhost:5272/api/Auth/register', {
         method: 'POST',
         headers: {

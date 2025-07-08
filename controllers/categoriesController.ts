@@ -1,6 +1,7 @@
-const { default: fetcher } = require("../helper/fetcher");
+import { default as fetcher } from "../helper/fetcher";
+import { Request, Response } from "express";
 
-exports.indexPage = async (req, res) => {
+export const indexPage = async (req: Request, res: Response) => {
     const token = req.cookies.token;
     const result = await handleGetCategories(token)
     const categories = result.data.data || []
@@ -8,7 +9,7 @@ exports.indexPage = async (req, res) => {
     res.render("categories", { categories })
 }
 
-exports.create = async (req, res) => {
+export const create = async (req: Request, res: Response) => {
     const token = req.cookies.token;
     const result = await handleCreateCategories(token, req.body)
 
@@ -21,7 +22,8 @@ exports.create = async (req, res) => {
     // res.render("categories", { categories })
 }
 
-const handleGetCategories = async (token) => {
+export const handleGetCategories = async (token: string) => {
+
 
     const response = await fetcher('http://localhost:5272/api/Category', {
         method: 'GET',
@@ -32,7 +34,7 @@ const handleGetCategories = async (token) => {
     return response;
 }
 
-const handleCreateCategories = async (token, body) => {
+export const handleCreateCategories = async (token: string, body: any) => {
     const response = await fetch('http://localhost:5272/api/Category', {
         headers: {
             'Authorization': `Bearer ${token}`,

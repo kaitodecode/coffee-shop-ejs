@@ -1,0 +1,27 @@
+{
+  "include": ["**/*"],
+  "exclude": ["dist", "node_modules"],
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "rootDir": "./",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@controllers/*": ["controllers/*"],
+      "@views/*": ["views/*"],
+      "@helper/*": ["helper/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@models/*": ["models/*"],
+      "@routes/*": ["routes/*"]
+    },
+    "types": ["node", "express"],
+    "allowJs": true
+  }
+}
