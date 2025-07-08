@@ -2,28 +2,27 @@ const { default: fetcher } = require("../helper/fetcher");
 
 exports.indexPage = async (req, res) => {
     const token = req.cookies.token;
-    const result = await handleGetCategories(token)
-    const categories = result.data.data || []
-    console.log(categories)
-    res.render("categories", { categories })
+    const result = await handleGetProducts(token)
+    const products = result.data.data|| []
+    console.log(products)
+    res.render("products", { products })
 }
 
 exports.create = async (req, res) => {
     const token = req.cookies.token;
-    const result = await handleCreateCategories(token, req.body)
+    const result = await handleCreateProducts(token, req.body)
 
     console.log(result)
     if(!result.ok){
         res.redirect("/error")
     }else{
-        res.redirect("/app/categories")
+        res.redirect("/app/products")
     }
-    // res.render("categories", { categories })
 }
 
-const handleGetCategories = async (token) => {
+const handleGetProducts = async (token) => {
 
-    const response = await fetcher('http://localhost:5272/api/Category', {
+   const response = await fetcher('http://localhost:5272/api/product', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
@@ -32,8 +31,8 @@ const handleGetCategories = async (token) => {
     return response;
 }
 
-const handleCreateCategories = async (token, body) => {
-    const response = await fetch('http://localhost:5272/api/Category', {
+const handleCreateProducts = async (token, body) => {
+    const response = await fetch('http://localhost:5272/api/Product', {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

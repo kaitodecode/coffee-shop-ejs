@@ -31,6 +31,7 @@ app.use(cookieParser())
 const LoginController = require("./controllers/authController")
 const ErrorAppController = require("./controllers/errorController")
 const CategoryController = require("./controllers/categoriesController");
+const productController = require("./controllers/productController")
 
 app.get("/", LoginController.loginPage);
 app.post("/", LoginController.login)
@@ -39,6 +40,9 @@ app.post("/register", LoginController.register);
 
 app.get("/app/categories", CategoryController.indexPage)
 app.post("/app/categories", CategoryController.create)
+
+app.get("/app/products", productController.indexPage)
+app.post("/app/products", productController.create)
 
 app.use(ErrorAppController.pageNotFound)
 app.use(ErrorAppController.serverError)
