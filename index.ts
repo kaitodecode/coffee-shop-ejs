@@ -31,6 +31,7 @@ app.use("/app/categories", categoryRouter)
 app.use("/app/products", productRouter)
 app.use("/app/errors", errorRouter)
 app.use("/app/dashboard", dashboardRouter)
+app.use("/app/customers", customerRouter)
 
 
 
