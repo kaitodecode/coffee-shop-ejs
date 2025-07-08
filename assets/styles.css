@@ -1,0 +1,133 @@
+/* Background untuk halaman order */
+body {
+    background-image: url('/assets/background_order.jpeg');
+    background-size: cover; /* Agar gambar memenuhi seluruh layar */
+    background-position: center center;
+    background-attachment: fixed; /* Membuat background tetap saat scrolling */
+    color: #333; /* Warna default teks */
+}
+
+/* Styling untuk tombol Back di kiri atas */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+/* Gambar produk akan disesuaikan agar tidak terlalu besar */
+.card-img-top {
+    height: 250px; /* Menyesuaikan ukuran gambar */
+    object-fit: cover;
+}
+
+/* Styling tombol kategori sebelumnya dan berikutnya */
+.pagination-button {
+    font-size: 20px;
+    padding: 10px 15px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.pagination-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling untuk kategori dengan border */
+.category-menu-container {
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-top: 20px;
+}
+
+.category-menu {
+    display: inline-flex;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.category-menu button {
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    color: black; /* Menambahkan warna hitam untuk teks kategori */
+    border: 2px solid #ddd; /* Menambahkan border di sekitar kategori */
+    background-color: white; /* Latar belakang putih untuk kategori */
+    transition: all 0.3s ease;
+}
+
+.category-menu button:hover {
+    background-color: #28a745; /* Ganti warna latar belakang saat hover */
+    color: white;
+    border-color: #28a745; /* Ganti warna border saat hover */
+}
+
+/* Scrollable untuk kategori */
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.scroll-left {
+    left: 0;
+}
+
+.scroll-right {
+    right: 0;
+}
+
+/* Membatasi tampilannya agar hanya 4 kategori yang terlihat per halaman */
+@media (max-width: 768px) {
+    .category-menu button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+/* Styling untuk gambar produk menggunakan background */
+.card-img-top {
+    height: 250px;  /* Menentukan tinggi gambar */
+    object-fit: cover;
+    background-image: url('/assets/coffe.jpeg');  /* Menambahkan gambar sebagai background */
+    background-size: cover;
+    background-position: center center;
+}
+
+/* Styling untuk pesan 'Belum ada makanan/minuman untuk kategori ini' */
+.no-products-message {
+    font-size: 24px;  /* Ukuran font lebih besar */
+    font-weight: bold; /* Membuat font lebih tebal */
+    color: white; /* Warna teks putih */
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #343a40;  /* Memberikan latar belakang abu-abu gelap */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Memberikan sedikit bayangan */
+}
+
+
+.category-menu a:hover {
+    background-color: #0056b3; /* Efek hover untuk kategori */
+}
+
+/* Styling untuk produk */
+.card-body {
+    text-align: center;
+}
+
+.card-body .stock {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #28a745; /* Warna hijau untuk stok */
+}

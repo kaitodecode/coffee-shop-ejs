@@ -23,7 +23,7 @@ exports.create = async (req, res) => {
 
 const handleGetCategories = async (token) => {
 
-    const response = await fetcher('https://6ef7-180-244-164-198.ngrok-free.app/api/Category', {
+    const response = await fetcher('http://localhost:5272/api/Category', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
@@ -33,7 +33,7 @@ const handleGetCategories = async (token) => {
 }
 
 const handleCreateCategories = async (token, body) => {
-    const response = await fetch('https://6ef7-180-244-164-198.ngrok-free.app/api/Category', {
+    const response = await fetch('http://localhost:5272/api/Category', {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

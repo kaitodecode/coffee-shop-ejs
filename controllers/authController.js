@@ -59,7 +59,7 @@ exports.registerPage = (_, res) => res.render("register")
 
 
 const handleLogin = async (userData) => {
-    const response = await fetcher('https://6ef7-180-244-164-198.ngrok-free.app/api/Auth/login', {
+    const response = await fetcher('http://localhost:5272/api/Auth/login', {
         method: 'POST',
         body: JSON.stringify(userData)
     });
@@ -67,7 +67,7 @@ const handleLogin = async (userData) => {
 };
 
 const handleRegister = async (userData) => {
-    const response = await fetch('https://6ef7-180-244-164-198.ngrok-free.app/api/Auth/register', {
+    const response = await fetch('http://localhost:5272/api/Auth/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

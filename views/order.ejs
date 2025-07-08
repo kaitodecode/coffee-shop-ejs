@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Produk</title>
+    <!-- Link ke file CSS di dalam folder assets -->
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <!-- Tombol Back -->
+    <header class="bg-dark text-white text-center py-3 position-relative">
+        <a href="/app/categories" class="btn btn-light back-button">← Back to Dashboard</a>
+        <h1>Order Produk Coffee Shop</h1>
+    </header>
+    
+    <main class="container mt-4">
+        <!-- Menu Kategori Scrollable -->
+        <div class="category-menu-container">
+            <button class="scroll-button scroll-left">←</button>
+            <div class="category-menu">
+                <!-- Tombol Semua untuk menampilkan semua produk -->
+                <a href="/order" class="btn btn-outline-light mx-2">Semua</a>
+                
+                <% categories.forEach(category => { %>
+                    <a href="/order?categoryId=<%= category.id %>" class="btn btn-outline-light mx-2">
+                        <%= category.name %>
+                    </a>
+                <% }) %>
+            </div>
+            <button class="scroll-button scroll-right">→</button>
+        </div>
+
+        <!-- Produk List -->
+        <div class="row">
+            <% if (products.length === 0) { %>
+                <!-- Jika tidak ada produk, tampilkan pesan -->
+                <div class="col-12">
+                    <p class="no-products-message">Belum ada makanan/minuman untuk kategori ini.</p>
+                </div>
+            <% } else { %>
+                <% products.forEach(product => { %>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <!-- Menggunakan gambar dari CSS (coffee.jpeg di assets) -->
+                            <img class="card-img-top" alt="<%= product.name %>">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= product.name %></h5>
+                                <p class="card-text">Harga: Rp <%= product.price.toLocaleString() %></p>
+                                <p class="stock">Stok: <%= product.stock %> tersedia</p> <!-- Menampilkan stok produk -->
+                                <button class="btn btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+
+        <!-- Keranjang Belanja -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Checkout</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>QTY</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Risus Fringilla</td>
+                            <td>2</td>
+                            <td>$35.00</td>
+                        </tr>
+                        <tr>
+                            <td>Commodo Fusce</td>
+                            <td>2</td>
+                            <td>$35.00</td>
+                        </tr>
+                        <tr>
+                            <td>Loreum Phraetra</td>
+                            <td>2</td>
+                            <td>$35.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <span>Discount (%)</span>
+                    <span>20</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Sub Total</span>
+                    <span>Rp 84,000</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Tax 1.5%</span>
+                    <span>Rp 1,500</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <h4>Total</h4>
+                    <h4>Rp 85,500</h4>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button class="btn btn-danger">Cancel Order</button>
+                    <button class="btn btn-success">Pay (Rp 85,500)</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; Coffee Shop</p>
+    </footer>
+</body>
+</html>
