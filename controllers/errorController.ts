@@ -4,5 +4,14 @@ export const pageNotFound = (req: Request, res: Response) => {
 }
 
 export const serverError = (req: Request, res: Response) => {
-    res.redirect("/html/500.html")
+    res.redirect("errors/500")
 }
+
+export const badRequest = (req: Request, res: Response) => {
+    res.redirect("errors/400")
+}
+
+export const unauthorized = (req: Request, res: Response) => {
+    res.redirect("errors/401")
+}
+
