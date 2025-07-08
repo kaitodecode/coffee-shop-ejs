@@ -34,6 +34,7 @@ const LoginController = require("./controllers/authController")
 const ErrorAppController = require("./controllers/errorController")
 const CategoryController = require("./controllers/categoriesController");
 const OrderController = require("./controllers/OrderController");
+const productController = require("./controllers/productController")
 
 app.get("/", LoginController.loginPage);
 app.post("/", LoginController.login)
@@ -44,6 +45,8 @@ app.get("/app/categories", CategoryController.indexPage)
 app.post("/app/categories", CategoryController.create)
 
 app.use("/order", OrderController);
+app.get("/app/products", productController.indexPage)
+app.post("/app/products", productController.create)
 
 app.use(ErrorAppController.pageNotFound)
 app.use(ErrorAppController.serverError)
