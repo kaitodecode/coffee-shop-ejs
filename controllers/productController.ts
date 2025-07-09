@@ -9,7 +9,7 @@ export const indexPage = async (req: Request, res: Response) => {
     const products = result.data.data || []
     res.render("products", {
         products,
-        path: req.path  // Add this line
+        path: "/app/products"  // Add this line
     })
 }
 

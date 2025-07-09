@@ -3,8 +3,9 @@ import cookieParser from "cookie-parser";
 import { layoutMiddleware } from "./middlewares/layout_middleware";
 import layout from "express-ejs-layouts";
 import path from "path";
-import { authRouter, categoryRouter, productRouter, errorRouter, dashboardRouter } from "./routes";      
+import { authRouter, categoryRouter, productRouter, errorRouter, dashboardRouter, orderRoute } from "./routes";      
 import { pageNotFound } from "./controllers/errorController";
+import { authMiddleware } from "./middlewares/auth_middleware";
 
 const app = express()
 const PORT = 3000
@@ -25,12 +26,13 @@ app.use(cookieParser())
 // controller
 
 
-
+app.use(authMiddleware)
 app.use("/", authRouter)
 app.use("/app/categories", categoryRouter)
 app.use("/app/products", productRouter)
 app.use("/app/errors", errorRouter)
 app.use("/app/dashboard", dashboardRouter)
+app.use("/app/orders", orderRoute)
 
 
 

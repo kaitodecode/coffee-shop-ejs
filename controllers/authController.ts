@@ -54,6 +54,11 @@ export const register = async (req: Request, res: Response) => {
     }
 };
 
+export const logout = async (req: Request, res: Response) => {
+    res.clearCookie('token');
+    res.redirect('/');
+}
+
 export const loginPage = (req: Request, res: Response) => res.render("login")
 export const registerPage = (req: Request, res: Response) => res.render("register")
 export const errorPage = (req: Request, res: Response) => res.render("error")
