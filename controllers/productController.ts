@@ -7,7 +7,7 @@ export const indexPage = async (req: Request, res: Response) => {
     const token = req.cookies.token;
     const result = await handleGetProducts(token)
     const products = result.data.data || []
-    res.render("products", { 
+    res.render("products", {
         products,
         path: req.path  // Add this line
     })
@@ -18,8 +18,8 @@ export const create = async (req: Request, res: Response) => {
     const result = await handleCreateProducts(token, req.body)
 
     console.log(result)
-        res.redirect("/app/products")
-    }
+    res.redirect("/app/products")
+}
 
 export const update = async (req: Request, res: Response) => {
     const token = req.cookies.token;
@@ -27,8 +27,8 @@ export const update = async (req: Request, res: Response) => {
     const result = await handleUpdateProducts(token, id, req.body)
 
     console.log(result)
-        res.redirect("/app/products")
-    }
+    res.redirect("/app/products")
+}
 
 export const destroy = async (req: Request, res: Response) => {
     const token = req.cookies.token;
@@ -36,13 +36,13 @@ export const destroy = async (req: Request, res: Response) => {
     const result = await handleDeleteProducts(token, id)
 
     console.log(result)
-        res.redirect("/app/products")
-    }
+    res.redirect("/app/products")
+}
 
 
 const handleGetProducts = async (token: string) => {
 
-   const response = await fetcher('http://localhost:5272/api/Product', {
+    const response = await fetcher('http://localhost:5272/api/Product', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`

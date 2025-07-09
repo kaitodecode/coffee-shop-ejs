@@ -34,7 +34,15 @@ export const create = async (req: Request, res: Response) => {
     // res.render("categories", { categories })
 }
 
-export const handleGetCategories = async (token: string) => {
+export const destroy = async(req: Request, res: Response) => {
+    const token = req.cookies.token;
+    const { id } = req.params;
+    await handleDeleteCategory(token, Number(id));
+    res.redirect("/app/categories");
+}
+
+
+ const handleGetCategories = async (token: string) => {
 
 
     const response = await fetcher('http://localhost:5272/api/Category', {
@@ -46,7 +54,7 @@ export const handleGetCategories = async (token: string) => {
     return response;
 }
 
-export const handleCreateCategories = async (token: string, body: any) => {
+ const handleCreateCategories = async (token: string, body: any) => {
     const response = await fetch('http://localhost:5272/api/Category', {
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -58,7 +66,7 @@ export const handleCreateCategories = async (token: string, body: any) => {
     return response.json();
 }
 
-export const handleUpdateCategories = async (token: string, body: any) => {
+ const handleUpdateCategories = async (token: string, body: any) => {
     const response = await fetch('http://localhost:5272/api/Category/' + body.id, {
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -66,6 +74,17 @@ export const handleUpdateCategories = async (token: string, body: any) => {
         },
         method: 'PUT',
         body: JSON.stringify(body)
+    });
+    return response.json();
+}
+
+export const handleDeleteCategory = async(token: string, id: number) => {
+    const response = await fetch('http://localhost:5272/api/Category/' + id, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        method: 'DELETE',
     });
     return response.json();
 }

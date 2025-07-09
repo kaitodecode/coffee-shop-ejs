@@ -19,7 +19,7 @@ export const login = async (req: Request, res: Response) => {
             sameSite: 'strict',   // Cegah CSRF
             maxAge: 24 * 60 * 60 * 1000 // 1 hari dalam ms
         });
-        res.redirect("/app/categories")
+        res.redirect("/app/dashboard")
     }
 };
 
@@ -48,7 +48,7 @@ export const register = async (req: Request, res: Response) => {
     const result = await handleRegister(req.body)
     console.log(result)
     if (!result.ok) {
-        res.redirect("/error")
+        res.redirect("/app/errors/400")
     } else {
         res.redirect("/")
     }
