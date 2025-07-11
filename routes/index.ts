@@ -4,6 +4,7 @@ import { productRouter } from "./product";
 import { errorRouter } from "./error";
 import { orderRoute } from "./order";
 import { dashboardRouter } from "./dashboard";
+import { usersRouter } from "./user";
 
 export {
     authRouter,
@@ -12,4 +13,5 @@ export {
     errorRouter,
     orderRoute,
     dashboardRouter,
+    usersRouter
 }

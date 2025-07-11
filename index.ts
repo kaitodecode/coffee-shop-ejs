@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import { layoutMiddleware } from "./middlewares/layout_middleware";
 import layout from "express-ejs-layouts";
 import path from "path";
-import { authRouter, categoryRouter, productRouter, errorRouter, dashboardRouter, orderRoute } from "./routes";      
+import { authRouter, categoryRouter, productRouter, errorRouter, dashboardRouter, orderRoute, usersRouter } from "./routes";      
 import { pageNotFound } from "./controllers/errorController";
 import { authMiddleware } from "./middlewares/auth_middleware";
 
@@ -33,6 +33,7 @@ app.use("/app/products", productRouter)
 app.use("/app/errors", errorRouter)
 app.use("/app/dashboard", dashboardRouter)
 app.use("/app/orders", orderRoute)
+app.use("/app/users", usersRouter)
 
 
 
