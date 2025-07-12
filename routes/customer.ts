@@ -3,6 +3,11 @@ import * as CustomerController from "../controllers/customerController";
 
 export const customerRouter = Router();
 
-customerRouter.get("/app/customers", CustomerController.indexPage);
-customerRouter.post("/app/customers", CustomerController.create);
+// GET halaman customer
+customerRouter.get("/", CustomerController.indexPage);
 
+// POST tambah customer
+customerRouter.post("/", CustomerController.create);
+
+// DELETE hapus customer
+customerRouter.post("/delete/:id", CustomerController.deleteCustomer);

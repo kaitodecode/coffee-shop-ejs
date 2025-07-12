@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 export const pageNotFound = (req: Request, res: Response) => {
-    res.render("errors/404")
+    res.render("errors/404",{path:"/errors/404"})
 }
 
 export const serverError = (req: Request, res: Response) => {
