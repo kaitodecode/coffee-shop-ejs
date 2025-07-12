@@ -23,6 +23,7 @@ export const orderPage = async (req: express.Request, res: express.Response) => 
 
         // Jika gagal mengambil kategori
         if (!categoryResponse.ok) {
+            console.log({categoryResponse})
             throw new Error('Failed to fetch categories');
         }
 
