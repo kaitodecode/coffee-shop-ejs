@@ -4,20 +4,23 @@ import cookieParser from "cookie-parser";
 import { layoutMiddleware } from "./middlewares/layout_middleware";
 import layout from "express-ejs-layouts";
 import path from "path";
-import { authRouter, categoryRouter, productRouter, errorRouter, dashboardRouter, orderRoute } from "./routes";      
+import { authRouter, categoryRouter, productRouter, errorRouter, dashboardRouter, orderRoute, customerRouter, usersRouter } from "./routes";      
 import { pageNotFound } from "./controllers/errorController";
 import { authMiddleware } from "./middlewares/auth_middleware";
-
+import cors from "cors"
 const app = express()
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type, Authorization",
+}))
 const PORT = 3000
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(layout)
 app.use(layoutMiddleware)
-app.use('/app/orders', (req, res) => {
-    res.render('order', { path: '/app/orders' });
-});
 app.use(cookieParser());
 
 app.use("/css", express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')))
@@ -32,14 +35,15 @@ app.use(cookieParser())
 // controller
 
 
-
+app.use(authMiddleware)
 app.use("/", authRouter)
 app.use("/app/categories", categoryRouter)
 app.use("/app/products", productRouter)
 app.use("/app/errors", errorRouter)
 app.use("/app/dashboard", dashboardRouter)
 app.use("/app/order", orderRoute)
-
+app.use("/app/customers", customerRouter)
+app.use("/app/users", usersRouter)
 
 
 

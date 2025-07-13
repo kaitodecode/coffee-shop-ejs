@@ -10,4 +10,4 @@ customerRouter.get("/", CustomerController.indexPage);
 customerRouter.post("/", CustomerController.create);
 
 // DELETE hapus customer
-customerRouter.post("/delete/:id", CustomerController.deleteCustomer);
+customerRouter.post("/delete/:id", CustomerController.deleteCustomer as any);

@@ -14,58 +14,66 @@ export const UsersPage = async (req: Request, res: Response) => {
 }
 
 export const create = async (req: Request, res: Response) => {
-    const token = req.cookies.token;
+    try {
+        const token = req.cookies.token;
 
-    const fixedBody = {
-        Name: req.body.name,
-        Email: req.body.email,
-        Password: req.body.password,
-        IsAdmin: req.body.isadmin === "0"
-    };
+        const fixedBody = {
+            Name: req.body.name,
+            Email: req.body.email,
+            Password: req.body.password,
+            IsAdmin: req.body.isadmin === "0"
+        };
 
-    console.log("Request Body (fixed):", fixedBody);
+        console.log("Request Body (fixed):", fixedBody);
 
-    const result = await handleCreateUsers(token, fixedBody);
+        const result = await handleCreateUsers(token, fixedBody);
 
-    console.log("API Response (Create):", result);
+        console.log("API Response (Create):", result);
 
-    res.redirect("/app/users");
+        res.redirect("/app/users");
+    } catch (error) {
+        res.redirect("/app/errors/400")
+    }
 };
 
 
 export const update = async (req: Request, res: Response) => {
-    const token = req.cookies.token;
-    const id = req.params.id;
-
-    const fixedBody: any = {
-        Id: Number(id),
-        Name: req.body.name,
-        Email: req.body.email,
-        IsAdmin: req.body.isadmin === "0",
-    };
-
-    if (req.body.password) {
-        fixedBody.Password = req.body.password;
+    try {
+        const token = req.cookies.token;
+        const id = req.params.id;
+        const fixedBody: any = {
+            Id: Number(id),
+            Name: req.body.name,
+            Email: req.body.email,
+            IsAdmin: req.body.isadmin === "0",
+        };
+        if (req.body.password) {
+            fixedBody.Password = req.body.password;
+        }
+        console.log("Request Body (Update):", fixedBody);
+        const result = await handleUpdateUsers(token, id, fixedBody);
+        console.log("API Response (Update):", result);
+        res.redirect("/app/users");
+    } catch (error) {
+        res.redirect("/app/errors/400")
     }
-
-    console.log("Request Body (Update):", fixedBody);
-
-    const result = await handleUpdateUsers(token, id, fixedBody);
-
-    console.log("API Response (Update):", result);
-
-    res.redirect("/app/users");
 };
 
 
 
 export const destroy = async (req: Request, res: Response) => {
-    const token = req.cookies.token;
-    const id = req.params.id;
-    const result = await handleDeleteUsers(token, id)
+    try {
+        const token = req.cookies.token;
+        const id = req.params.id;
+        
+        const result = await handleDeleteUsers(token, id)
+        console.log(result)
+        res.redirect("/app/users")
 
-    console.log(result)
-    res.redirect("/app/users")
+    } catch (error) {
+        console.log(error)
+        res.redirect("/app/errors/400")
+    }
 }
 
 
@@ -118,5 +126,5 @@ const handleDeleteUsers = async (token: string, id: string) => {
         },
         method: 'DELETE',
     });
-    return response.json();
+    return response;
 }

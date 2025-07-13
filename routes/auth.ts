@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { register, login, registerPage, loginPage, logout } from "../controllers/authController";
-import { authorizeRole } from "../middlewares/authorizeRole";
 
 export const authRouter = Router();
 authRouter.get("/", loginPage);
