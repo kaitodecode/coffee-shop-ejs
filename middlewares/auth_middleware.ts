@@ -5,12 +5,12 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     console.log("[authMiddleware] Path:", req.path);
     console.log("[authMiddleware] Token:", req.cookies.token);
     // Only apply middleware to /app/* routes
-    if (!req.path.startsWith('/app/dashboard')) {
+    if (!req.path.startsWith('/app')) {
         return next();
     }
 
     const token = req.cookies.token;
-    if (token && token !== "null") {
+    if (token || token !== "null" || token != null) {
         try {
             // Verify and decode the JWT token
             const decoded = jwt.verify(token, "ThisIsASecretKeyWithExactly32Char!!") as {
