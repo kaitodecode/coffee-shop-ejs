@@ -141,23 +141,37 @@
                               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body p-4">
-                              <form action="/app/customers" method="post">
-                                <input type="hidden" name="id" value="<%= customer.id %>">
+                              <form action="/app/customers/update/<%= customer.id %>" method="post">
                                 <div class="mb-3">
-                                  <label class="form-label">Name <span class="text-danger">*</span></label>
-                                  <input type="text" class="form-control" name="name" value="<%= customer.name %>" required>
+                                  <label class="form-label fw-semibold">
+                                    <i class="bi bi-person me-2"></i>Name <span class="text-danger">*</span>
+                                  </label>
+                                  <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                                    <input type="text" class="form-control form-control-lg" name="name" value="<%= customer.name %>" required>
+                                  </div>
                                 </div>
                                 <div class="mb-3">
-                                  <label class="form-label">Phone <span class="text-danger">*</span></label>
-                                  <input type="text" class="form-control" name="phone" value="<%= customer.phone %>" required>
+                                  <label class="form-label fw-semibold">
+                                    <i class="bi bi-telephone me-2"></i>Phone <span class="text-danger">*</span>
+                                  </label>
+                                  <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-telephone-fill"></i></span>
+                                    <input type="text" class="form-control form-control-lg" name="phone" value="<%= customer.phone %>" required>
+                                  </div>
                                 </div>
-                                <div class="mb-3">
-                                  <label class="form-label">Email <span class="text-danger">*</span></label>
-                                  <input type="email" class="form-control" name="email" value="<%= customer.email %>" required>
+                                <div class="mb-4">
+                                  <label class="form-label fw-semibold">
+                                    <i class="bi bi-envelope me-2"></i>Email <span class="text-danger">*</span>
+                                  </label>
+                                  <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                                    <input type="email" class="form-control form-control-lg" name="email" value="<%= customer.email %>" required>
+                                  </div>
                                 </div>
                                 <div class="text-end">
-                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                  <button type="submit" class="btn btn-brown ms-2">Update</button>
+                                  <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">Cancel</button>
+                                  <button type="submit" class="btn btn-brown btn-lg ms-2">Update Customer</button>
                                 </div>
                               </form>
                             </div>

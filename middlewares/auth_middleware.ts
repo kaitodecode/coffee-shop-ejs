@@ -26,8 +26,12 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
                 email: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
                 role: decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
             };
-            console.log({user});
-            if (user.role !== "Admin" && req.path === "/app/categories") {
+            const {role} = user
+            console.log({role});
+            if (user.role != "Admin" && req.path === "/app/categories") {
+                return res.redirect("/app/dashboard");
+            }
+            if (user.role != "Admin" && req.path === "/app/users") {
                 return res.redirect("/app/dashboard");
             }
             next();

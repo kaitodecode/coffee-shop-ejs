@@ -3,14 +3,12 @@ import { Request, Response } from "express";
 
 export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
-    console.log("masuk login")
     if (!email || !password) {
         return res.status(400).json({ message: 'Email and password are required' });
     }
 
     const result = await handleLogin(req.body)
     // 🔍 DEBUG LOG DI SINI
-    console.log("[LOGIN RESULT]", result);
 
 
 
@@ -76,8 +74,8 @@ const handleLogin = async (userData: any) => {
         body: JSON.stringify(userData)
     });
 
+    console.log(userData)
     let data;
-    console.log({data})
     try {
         data = await response.json();
     } catch (error) {
