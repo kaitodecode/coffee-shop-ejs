@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,16 +18,24 @@
       display: flex;
       height: 100vh;
       overflow: hidden;
+      flex-direction: column;
+    }
+
+    .main-container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
     }
 
     .sidebar {
       width: 250px;
       background-color: #4b3621;
-      /* Coklat kopi gelap */
       color: white;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: all 0.3s ease;
     }
 
     .sidebar .nav-links {
@@ -79,13 +86,37 @@
       background-color: #f8f9fa;
     }
 
+    .footer {
+      background-color: #4b3621;
+      color: #e0dcd3;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .toggle-sidebar {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1001;
+      background: #4b3621;
+      border: none;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 4px;
+    }
+
     @media (max-width: 768px) {
+      .toggle-sidebar {
+        display: block;
+      }
+
       .sidebar {
         position: fixed;
         z-index: 1000;
         left: -250px;
         height: 100vh;
-        transition: left 0.3s ease;
       }
 
       .sidebar.show {
@@ -94,55 +125,90 @@
 
       .content {
         padding: 1rem;
+        padding-top: 4rem;
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
+
+      .overlay.show {
+        display: block;
       }
     }
   </style>
 </head>
 
 <body>
-
   <div class="wrapper">
-    <!-- Sidebar -->
-    <nav class="sidebar">
-      <div class="nav-links">
-        <h5 class="text-center mt-3"><i class="bi bi-cup-hot-fill me-1"></i> Coffee Panel</h5>
-        <hr class="text-white mx-3">
-        <a href="/app/dashboard" class="<%= path && path === '/app/dashboard' ? 'active' : '' %>">
-          <i class="bi bi-speedometer2"></i> Dashboard
-        </a>
+    <button class="toggle-sidebar" onclick="toggleSidebar()">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="overlay" onclick="toggleSidebar()"></div>
+    <div class="main-container">
+      <!-- Sidebar -->
+      <nav class="sidebar">
+        <div class="nav-links">
+          <h5 class="text-center mt-3"><i class="bi bi-cup-hot-fill me-1"></i> Coffee Panel</h5>
+          <hr class="text-white mx-3">
+          <a href="/app/dashboard" class="<%= path && path === '/app/dashboard' ? 'active' : '' %>">
+            <i class="bi bi-speedometer2"></i> Dashboard
+          </a>
 
-        <a href="/app/categories" class="<%= path && path === '/app/categories' ? 'active' : '' %>">
-          <i class="bi bi-list-task"></i> Categories
-        </a>
+          <a href="/app/categories" class="<%= path && path === '/app/categories' ? 'active' : '' %>">
+            <i class="bi bi-list-task"></i> Categories
+          </a>
 
-        <a href="/app/order" class="<%= path && path === '/app/orders' ? 'active' : '' %>">
-          <i class="bi bi-bag-check"></i> Orders
-        </a>
+          <a href="/app/order" class="<%= path && path === '/app/orders' ? 'active' : '' %>">
+            <i class="bi bi-bag-check"></i> Orders
+          </a>
 
-        <a href="/app/products" class="<%= path && path === '/app/products' ? 'active' : '' %>">
-          <i class="bi bi-box-seam"></i> Products
-        </a>
-        <a href="/app/customers" class="<%= path && path === '/app/customers' ? 'active' : '' %>">
-          <i class="bi bi-people-fill"></i> Customer
-        </a>
-        <a href="/app/users" class="<%= path && path === '/app/users' ? 'active' : '' %>">
-          <i class="bi bi-person-fill"></i> User
-        </a>
+          <a href="/app/products" class="<%= path && path === '/app/products' ? 'active' : '' %>">
+            <i class="bi bi-box-seam"></i> Products
+          </a>
+          <a href="/app/customers" class="<%= path && path === '/app/customers' ? 'active' : '' %>">
+            <i class="bi bi-people-fill"></i> Customer
+          </a>
+          <a href="/app/users" class="<%= path && path === '/app/users' ? 'active' : '' %>">
+            <i class="bi bi-person-fill"></i> User
+          </a>
 
-        <div class="logout-form">
-          <form action="/logout" method="POST" class="mb-0">
-            <button class="btn btn-sm btn-light w-100"><i class="bi bi-box-arrow-right"></i> Logout</button>
-          </form>
+          <div class="logout-form">
+            <form action="/logout" method="POST" class="mb-0">
+              <button class="btn btn-sm btn-light w-100"><i class="bi bi-box-arrow-right"></i> Logout</button>
+            </form>
+          </div>
         </div>
-    </nav>
+      </nav>
 
-    <!-- Main Content -->
-    <main class="content">
-      <%- body %>
-    </main>
+      <!-- Main Content -->
+      <main class="content">
+        <%- body %>
+      </main>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p class="mb-0">
+          <i class="bi bi-cup-hot"></i> Kopi Kita Admin Panel &copy; <%= new Date().getFullYear() %> | Made with <i
+            class="bi bi-heart-fill text-danger"></i> for coffee lovers
+        </p>
+      </div>
+    </footer>
   </div>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleSidebar() {
+      document.querySelector('.sidebar').classList.toggle('show');
+      document.querySelector('.overlay').classList.toggle('show');
+    }
+  </script>
 </body>
-
 </html>

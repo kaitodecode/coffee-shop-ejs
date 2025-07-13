@@ -16,7 +16,8 @@ export const dashboardPage = async (req: Request, res: Response) => {
 
         console.log(`Orders API Response Status: ${orders.status}`);
         if (orders.ok) {
-            orderData = await orders.json();
+            const result = await orders.json();
+            orderData = result.data || [];
             console.log(`Successfully fetched ${orderData.length} orders`);
         } else {
             console.warn(`Failed to fetch orders. Status: ${orders.status}`);
@@ -66,6 +67,42 @@ export const dashboardPage = async (req: Request, res: Response) => {
             : 0,
     }
 
+    const rataTerjual = {
+        qty: orderData?.length > 0
+            ? Number((orderData.reduce((acc: number, order: any) =>
+                acc + 1, 0) / orderData.length)).toFixed(2)
+            : 0,
+        total: orderData?.length > 0
+            ? Number((orderData.reduce((acc: number, order: { total: number }) =>
+                acc + (order?.total || 0), 0) / orderData.length).toFixed(2))
+            : 0,
+    }
+
+    // Group orders by date and calculate daily totals
+    // Initialize an object with all days of the week set to 0
+    const daysOfWeek = {
+        'Sunday': 0,
+        'Monday': 0,
+        'Tuesday': 0,
+        'Wednesday': 0,
+        'Thursday': 0,
+        'Friday': 0,
+        'Saturday': 0
+    };
+
+    // Aggregate order totals by day
+    const ordersByDate = orderData.reduce((acc: { [key: string]: number }, order: any) => {
+        const date = new Date(order.orderDate).toLocaleDateString('en-US', { weekday: 'long' });
+        acc[date] = (acc[date] || 0) + order.total;
+        return acc;
+    }, {...daysOfWeek}); // Spread the daysOfWeek object as initial value
+
+    // Prepare chart data
+    const chart = {
+        labels: Object.keys(ordersByDate),
+        data: Object.values(ordersByDate)
+    }
+
     console.log('Dashboard Statistics:', {
         totalProducts: totalProduk.qty,
         averagePrice: totalProduk.total,
@@ -75,7 +112,10 @@ export const dashboardPage = async (req: Request, res: Response) => {
     res.render("dashboard", {
         path: "/app/dashboard",
         totalProduk,
+        totalTransaction,
+        rataTerjual,
         orderData: orderData || [],
-        productData: productData || []
+        productData: productData || [],
+        chart // Add chart data to the response
     });
 }
