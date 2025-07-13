@@ -34,7 +34,7 @@ export const create = async (req: Request, res: Response) => {
             }
             res.redirect("/app/customers");
         }else {
-            const { response, result } = await handleUpdateCustomer(token, data);
+            const { response, result } = await handleUpdateCustomer(token, data.id,data);
             console.log("[Update] API Response:", result);
     
             if (!response.ok) {
@@ -73,10 +73,6 @@ export const deleteCustomer = async (req: Request, res: Response) => {
             const result = await response.json();
             console.error("[DELETE] Failed:", result);
             throw new Error(result.message || "Gagal menghapus customer");
-        }
-
-        if (req.headers.accept?.includes("application/json")) {
-            return res.status(200).json({ success: true });
         }
 
         res.redirect("/app/customers");

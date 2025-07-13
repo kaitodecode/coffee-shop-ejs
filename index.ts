@@ -3,14 +3,7 @@ import cookieParser from "cookie-parser";
 import { layoutMiddleware } from "./middlewares/layout_middleware";
 import layout from "express-ejs-layouts";
 import path from "path";
-<<<<<<< HEAD
-
-import { authRouter, categoryRouter, productRouter, errorRouter, dashboardRouter } from "./routes";
-import { customerRouter } from "./routes/customer"; // ✅ Tambahan untuk customer
-
-=======
-import { authRouter, categoryRouter, productRouter, errorRouter, dashboardRouter, orderRoute, usersRouter } from "./routes";      
->>>>>>> b0f19704b263e46ada321f6166e533dc3e691d2a
+import { authRouter, categoryRouter, productRouter, errorRouter, dashboardRouter, orderRoute, usersRouter, customerRouter } from "./routes";      
 import { pageNotFound } from "./controllers/errorController";
 import { authMiddleware } from "./middlewares/auth_middleware";
 
