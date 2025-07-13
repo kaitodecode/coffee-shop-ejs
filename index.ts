@@ -1,4 +1,5 @@
 import express from "express";
+import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { layoutMiddleware } from "./middlewares/layout_middleware";
 import layout from "express-ejs-layouts";
@@ -9,6 +10,8 @@ import { authMiddleware } from "./middlewares/auth_middleware";
 
 const app = express()
 const PORT = 3000
+
+dotenv.config();
 
 app.set('view engine', 'ejs');
 app.set('views', './views');

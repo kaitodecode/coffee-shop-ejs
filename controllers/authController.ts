@@ -3,19 +3,23 @@ import { Request, Response } from "express";
 
 export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
+    console.log("masuk login")
     if (!email || !password) {
         return res.status(400).json({ message: 'Email and password are required' });
     }
 
     const result = await handleLogin(req.body)
+    // 🔍 DEBUG LOG DI SINI
+    console.log("[LOGIN RESULT]", result);
+
 
 
     if (!result.ok) {
-        res.redirect("/error")
+        res.redirect("/app/errors/400")
     } else {
         res.cookie('token', result.data.token, {
             httpOnly: true,       // Tidak bisa diakses dari JS frontend
-            secure: true,         // Hanya dikirim lewat HTTPS
+            secure: false,         // Hanya dikirim lewat HTTPS
             sameSite: 'strict',   // Cegah CSRF
             maxAge: 24 * 60 * 60 * 1000 // 1 hari dalam ms
         });
@@ -64,12 +68,28 @@ export const registerPage = (req: Request, res: Response) => res.render("registe
 export const errorPage = (req: Request, res: Response) => res.render("error")
 
 const handleLogin = async (userData: any) => {
-    const response = await fetcher('http://localhost:5272/api/Auth/login', {
+    const response = await fetch('http://localhost:5272/api/Auth/login', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(userData)
     });
-    return response;
+
+    let data;
+    console.log({data})
+    try {
+        data = await response.json();
+    } catch (error) {
+        data = null;
+    }
+
+    return {
+        ok: response.ok,
+        data
+    };
 };
+
 
 const handleRegister = async (userData: any) => {
     const response = await fetch('http://localhost:5272/api/Auth/register', {

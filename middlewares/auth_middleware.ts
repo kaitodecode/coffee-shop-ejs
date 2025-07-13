@@ -2,8 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+    console.log("[authMiddleware] Path:", req.path);
+    console.log("[authMiddleware] Token:", req.cookies.token);
     // Only apply middleware to /app/* routes
-    if (!req.path.startsWith('/app/')) {
+    if (!req.path.startsWith('/app/dashboard')) {
         return next();
     }
 
