@@ -1,121 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Produk</title>
-    <!-- Link ke file CSS di dalam folder assets -->
     <link rel="stylesheet" href="/assets/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
     <!-- Tombol Back -->
     <header class="bg-dark text-white text-center py-3 position-relative">
-        <a href="/app/categories" class="btn btn-light back-button">← Back to Dashboard</a>
         <h1>Order Produk Coffee Shop</h1>
     </header>
-    
+
     <main class="container mt-4">
-        <!-- Menu Kategori Scrollable -->
+        <!-- Kategori Menu -->
         <div class="category-menu-container">
             <button class="scroll-button scroll-left">←</button>
             <div class="category-menu">
-                <!-- Tombol Semua untuk menampilkan semua produk -->
-                <a href="/order" class="btn btn-outline-light mx-2">Semua</a>
-                
-                <% categories.forEach(category => { %>
-                    <a href="/order?categoryId=<%= category.id %>" class="btn btn-outline-light mx-2">
+                <a href="javascript:void(0);" class="btn btn-outline-light mx-2" onclick="loadProducts()">Semua</a>
+                <% categories.forEach(category=> { %>
+                    <a href="javascript:void(0);" class="btn btn-outline-light mx-2"
+                        onclick="loadProducts('<%= category.id %>')">
                         <%= category.name %>
                     </a>
-                <% }) %>
+                    <% }) %>
             </div>
             <button class="scroll-button scroll-right">→</button>
         </div>
 
+
         <!-- Produk List -->
-        <div class="row">
-            <% if (products.length === 0) { %>
-                <!-- Jika tidak ada produk, tampilkan pesan -->
-                <div class="col-12">
-                    <p class="no-products-message">Belum ada makanan/minuman untuk kategori ini.</p>
-                </div>
-            <% } else { %>
-                <% products.forEach(product => { %>
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <!-- Menggunakan gambar dari CSS (coffee.jpeg di assets) -->
-                            <img class="card-img-top" alt="<%= product.name %>">
-                            <div class="card-body">
-                                <h5 class="card-title"><%= product.name %></h5>
-                                <p class="card-text">Harga: Rp <%= product.price.toLocaleString() %></p>
-                                <p class="stock">Stok: <%= product.stock %> tersedia</p> <!-- Menampilkan stok produk -->
-                                <button class="btn btn-primary">Add to Cart</button>
-                            </div>
+        <div id="products-container" class="row">
+            <% products.forEach(product=> { %>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" alt="<%= product.name %>">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= product.name %>
+                            </h5>
+                            <p class="card-text">Harga: Rp <%= product.price.toLocaleString() %>
+                            </p>
+
+                            <!-- Menampilkan stok produk -->
+                            <p class="stock <%= product.stock < 11 ? 'low-stock' : '' %>">
+                                Stok: <%= product.stock %> tersedia
+                            </p>
+
+                            <button class="btn btn-primary add-to-cart" data-id="<%= product.id %>"
+                                data-name="<%= product.name %>" data-price="<%= product.price %>"
+                                data-stock="<%= product.stock %>">Add to Cart</button>
                         </div>
                     </div>
+                </div>
                 <% }) %>
-            <% } %>
         </div>
+
+
 
         <!-- Keranjang Belanja -->
         <div class="card mt-4">
             <div class="card-body">
                 <h5 class="card-title">Checkout</h5>
+
+                <!-- Pilih Customer -->
+                <div class="form-group">
+                    <label for="customer-select">Pilih Customer</label>
+                    <select id="customer-select" class="form-control">
+                        <option value="">-- Pilih Customer --</option>
+                        <% customers.forEach(customer=> { %>
+                            <option value="<%= customer.id %>">
+                                <%= customer.name %> - <%= customer.phone %> - <%= customer.email %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </div>
+
+                <!-- Tabel Keranjang -->
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>QTY</th>
                             <th>Price</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Risus Fringilla</td>
-                            <td>2</td>
-                            <td>$35.00</td>
-                        </tr>
-                        <tr>
-                            <td>Commodo Fusce</td>
-                            <td>2</td>
-                            <td>$35.00</td>
-                        </tr>
-                        <tr>
-                            <td>Loreum Phraetra</td>
-                            <td>2</td>
-                            <td>$35.00</td>
-                        </tr>
+                    <tbody id="cart-items">
+                        <% cartItems.forEach(item=> { %>
+                            <tr>
+                                <td>
+                                    <%= item.name %>
+                                </td>
+                                <td><input type="number" class="form-control quantity" value="<%= item.quantity %>"
+                                        data-id="<%= item.id %>" onchange="updateCart()"></td>
+                                <td>Rp <%= item.price.toLocaleString() %>
+                                </td>
+                                <td id="total-<%= item.id %>">Rp <%= (item.price * item.quantity).toLocaleString() %>
+                                </td>
+                            </tr>
+                            <% }) %>
                     </tbody>
                 </table>
 
                 <hr>
                 <div class="d-flex justify-content-between">
                     <span>Discount (%)</span>
-                    <span>20</span>
+                    <span id="discount">20</span>
                 </div>
                 <div class="d-flex justify-content-between">
                     <span>Sub Total</span>
-                    <span>Rp 84,000</span>
+                    <span id="sub-total">Rp 84,000</span>
                 </div>
                 <div class="d-flex justify-content-between">
                     <span>Tax 1.5%</span>
-                    <span>Rp 1,500</span>
+                    <span id="tax">Rp 1,500</span>
                 </div>
                 <div class="d-flex justify-content-between">
                     <h4>Total</h4>
-                    <h4>Rp 85,500</h4>
+                    <h4 id="total">Rp 85,500</h4>
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
                     <button class="btn btn-danger">Cancel Order</button>
-                    <button class="btn btn-success">Pay (Rp 85,500)</button>
+                    <button class="btn btn-success" id="pay-button">Pay</button>
                 </div>
             </div>
         </div>
+
     </main>
 
     <footer class="bg-dark text-white text-center py-3 mt-5">
         <p>&copy; Coffee Shop</p>
     </footer>
 </body>
+<script>
+    // Menangani klik tombol "Add to Cart" untuk menambahkan produk ke keranjang
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function (event) {
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            const price = parseInt(this.getAttribute('data-price'));
+            const stock = parseInt(this.getAttribute('data-stock'));
+            const quantity = 1; // Menambah satu produk tiap klik
+
+            // Kirimkan data produk ke server untuk ditambahkan ke keranjang
+            fetch('/add-to-cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId: id, name, price, quantity })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Produk berhasil ditambahkan ke keranjang');
+                        updateCart(); // Perbarui tampilan keranjang
+                    } else {
+                        alert('Gagal menambahkan produk ke keranjang');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+
+    // Fungsi untuk mengupdate keranjang
+    function updateCart() {
+        fetch('/order')
+            .then(response => response.json())
+            .then(data => {
+                const cartTable = document.getElementById('cart-items');
+                cartTable.innerHTML = ''; // Clear tabel cart items
+
+                data.cartItems.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>Rp ${item.price.toLocaleString()}</td>
+                    <td>Rp ${(item.price * item.quantity).toLocaleString()}</td>
+                `;
+                    cartTable.appendChild(row);
+                });
+
+                // Update subtotal, tax, total...
+            });
+    }
+    // Fungsi untuk memuat produk berdasarkan kategori
+    function loadProducts(categoryId = '') {
+        const url = categoryId ? `/order?categoryId=${categoryId}` : '/order'; // Menentukan URL sesuai dengan kategori yang dipilih
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateProductList(data.products);
+                } else {
+                    console.error('Gagal memuat produk');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Fungsi untuk memperbarui daftar produk di halaman
+    function updateProductList(products) {
+        const container = document.getElementById('products-container');
+        container.innerHTML = ''; // Menghapus produk lama
+
+        products.forEach(product => {
+            const productCard = `
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img class="card-img-top" alt="${product.name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                        <p class="card-text">Harga: Rp ${product.price.toLocaleString()}</p>
+                        <p class="stock ${product.stock < 11 ? 'low-stock' : ''}">
+                            Stok: ${product.stock} tersedia
+                        </p>
+                        <button class="btn btn-primary add-to-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        `;
+            container.innerHTML += productCard; // Menambahkan produk baru ke halaman
+        });
+    }
+
+
+</script>
+
 </html>

@@ -1,10 +1,10 @@
 /* Background untuk halaman order */
 body {
     background-image: url('/assets/background_order.jpeg');
-    background-size: cover; /* Agar gambar memenuhi seluruh layar */
+    background-size: cover;
     background-position: center center;
-    background-attachment: fixed; /* Membuat background tetap saat scrolling */
-    color: #333; /* Warna default teks */
+    background-attachment: fixed;
+    color: #333;
 }
 
 /* Styling untuk tombol Back di kiri atas */
@@ -12,11 +12,12 @@ body {
     position: absolute;
     top: 20px;
     left: 20px;
+    z-index: 10; /* Pastikan tombol selalu di atas elemen lainnya */
 }
 
 /* Gambar produk akan disesuaikan agar tidak terlalu besar */
 .card-img-top {
-    height: 250px; /* Menyesuaikan ukuran gambar */
+    height: 250px;
     object-fit: cover;
 }
 
@@ -54,16 +55,16 @@ body {
     padding: 12px 20px;
     font-size: 16px;
     border-radius: 8px;
-    color: black; /* Menambahkan warna hitam untuk teks kategori */
-    border: 2px solid #ddd; /* Menambahkan border di sekitar kategori */
-    background-color: white; /* Latar belakang putih untuk kategori */
+    color: black;
+    border: 2px solid #ddd;
+    background-color: white;
     transition: all 0.3s ease;
 }
 
 .category-menu button:hover {
-    background-color: #28a745; /* Ganti warna latar belakang saat hover */
+    background-color: #28a745;
     color: white;
-    border-color: #28a745; /* Ganti warna border saat hover */
+    border-color: #28a745;
 }
 
 /* Scrollable untuk kategori */
@@ -77,6 +78,7 @@ body {
     font-size: 24px;
     cursor: pointer;
     padding: 10px;
+    z-index: 5; /* Pastikan scroll button berada di atas kategori */
 }
 
 .scroll-left {
@@ -94,31 +96,32 @@ body {
         padding: 8px 16px;
     }
 }
+
 /* Styling untuk gambar produk menggunakan background */
 .card-img-top {
-    height: 250px;  /* Menentukan tinggi gambar */
+    height: 250px;
     object-fit: cover;
-    background-image: url('/assets/coffe.jpeg');  /* Menambahkan gambar sebagai background */
+    background-image: url('/assets/coffe.jpeg');
     background-size: cover;
     background-position: center center;
 }
 
 /* Styling untuk pesan 'Belum ada makanan/minuman untuk kategori ini' */
 .no-products-message {
-    font-size: 24px;  /* Ukuran font lebih besar */
-    font-weight: bold; /* Membuat font lebih tebal */
-    color: white; /* Warna teks putih */
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
     text-align: center;
     margin-top: 20px;
     padding: 20px;
-    background-color: #343a40;  /* Memberikan latar belakang abu-abu gelap */
+    background-color: #343a40;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Memberikan sedikit bayangan */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-
+/* Hover efek untuk kategori */
 .category-menu a:hover {
-    background-color: #0056b3; /* Efek hover untuk kategori */
+    background-color: #0056b3;
 }
 
 /* Styling untuk produk */
@@ -126,8 +129,131 @@ body {
     text-align: center;
 }
 
+/* Styling untuk stok produk */
 .card-body .stock {
     margin-top: 10px;
     font-size: 14px;
-    color: #28a745; /* Warna hijau untuk stok */
+    color: #28a745; /* Default warna hijau untuk stok */
 }
+
+/* Warna merah jika stok kurang dari 11 */
+.card-body .stock.low-stock {
+    color: red; /* Ganti warna teks menjadi merah */
+}
+
+/* Membuat posisi tombol Back dan kategori berada di pojok kiri/kanan */
+.category-menu-container {
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.category-menu {
+    display: inline-flex;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.category-menu a {
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    color: black;
+    border: 2px solid #ddd;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.category-menu a:hover {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+/* Container kategori yang dapat di-scroll */
+.category-menu-container {
+    position: relative;
+    width: 100%;
+    overflow-x: auto;  /* Mengaktifkan scroll horizontal */
+    white-space: nowrap;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;  /* Memusatkan kategori */
+    align-items: center;
+}
+
+.category-menu {
+    display: inline-flex;
+    gap: 15px;
+    padding: 10px 0;
+    flex-wrap: nowrap;  /* Pastikan kategori berada dalam satu baris */
+}
+
+.category-menu a {
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    color: black;
+    border: 2px solid #ddd;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.category-menu a:hover {
+    background-color: #A16D28;
+    color: white;
+    border-color: #A16D28;
+}
+
+/* Scrollable untuk kategori */
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 5;
+}
+
+.scroll-left {
+    left: 10px; /* Menempatkan panah kiri di pojok kiri */
+}
+
+.scroll-right {
+    right: 10px; /* Menempatkan panah kanan di pojok kanan */
+}
+
+/* Membatasi tampilan kategori hingga 5 yang terlihat */
+.category-menu-container::-webkit-scrollbar {
+    height: 8px;  /* Tinggi scrollbar */
+}
+
+.category-menu-container::-webkit-scrollbar-thumb {
+    background: #28a745;
+    border-radius: 10px;
+}
+
+.category-menu-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+@media (max-width: 768px) {
+    .category-menu a {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+/* Styling untuk form Pilih Customer */
+.form-group {
+    margin-bottom: 30px; /* Memberikan jarak antara Pilih Customer dan elemen di bawahnya */
+}
+
+/* Styling untuk Tabel Checkout */
+.card {
+    margin-top: 40px; /* Memberikan jarak antara Pilih Customer dan Tabel Checkout */
+}
+
