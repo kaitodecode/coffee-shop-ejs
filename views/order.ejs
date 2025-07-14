@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,55 +8,53 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
     <header class="bg-coffee text-white text-center py-4">
         <h1 class="display-5 fw-semibold"><i class="bi bi-cart3 me-2"></i>Order Products</h1>
         <p class="text-white-50">Select your favorite coffee and beverages</p>
     </header>
-
     <div class="container py-5">
-        <!-- Category Menu -->
+        <!-- Search and Filter Section -->
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-body">
-                <div class="d-flex align-items-center gap-2 overflow-auto py-2">
+                <div class="row g-3"></div>
                     <button class="btn btn-coffee text-white" onclick="loadProducts()">
                         <i class="bi bi-grid-fill me-1"></i>All
                     </button>
-                    <% categories.forEach(category => { %>
+                    <% categories.forEach(category=> { %>
                         <button class="btn btn-coffee text-white" onclick="loadProducts('<%= category.id %>')">
-                            <i class="bi bi-tag-fill me-1"></i><%= category.name %>
+                            <i class="bi bi-tag-fill me-1"></i>
+                            <%= category.name %>
                         </button>
-                    <% }) %>
+                        <% }) %>
                 </div>
             </div>
         </div>
 
         <!-- Products Grid -->
         <div id="products-container" class="row g-4 mb-4">
-            <% products.forEach(product => { %>
+            <!-- <% products.forEach(product=> { %>
                 <div class="col-md-4 col-lg-3">
                     <div class="card h-100 shadow-sm border-0">
-                        <img class="card-img-top" src="<%= product.imageUrl %>" alt="<%= product.name %>">
                         <div class="card-body">
-                            <h5 class="card-title fw-bold"><%= product.name %></h5>
+                            <h5 class="card-title fw-bold">
+                                <%= product.name %>
+                            </h5>
                             <p class="card-text text-muted">
                                 <i class="bi bi-tag-fill me-1"></i>Rp <%= product.price.toLocaleString() %>
                             </p>
                             <p class="card-text text-muted">
                                 <i class="bi bi-box-seam me-1"></i>Stock: <%= product.stock %>
                             </p>
-                            <button class="btn btn-coffee w-100 text-white add-to-cart" 
-                                    data-id="<%= product.id %>"
-                                    data-name="<%= product.name %>" 
-                                    data-price="<%= product.price %>"
-                                    data-stock="<%= product.stock %>">
+                            <button class="btn btn-coffee w-100 text-white add-to-cart" data-id="<%= product.id %>"
+                                data-name="<%= product.name %>" data-price="<%= product.price %>"
+                                data-stock="<%= product.stock %>">
                                 <i class="bi bi-cart-plus me-1"></i>Add to Cart
                             </button>
                         </div>
                     </div>
                 </div>
-            <% }) %>
+                <% }) %> -->
         </div>
 
         <!-- Shopping Cart -->
@@ -70,11 +67,11 @@
                     <label for="customer-select" class="form-label fw-bold">Select Customer</label>
                     <select id="customer-select" class="form-control ps-4">
                         <option value="">-- Select Customer --</option>
-                        <% customers.forEach(customer => { %>
+                        <% customers.forEach(customer=> { %>
                             <option value="<%= customer.id %>">
                                 <%= customer.name %> - <%= customer.phone %> - <%= customer.email %>
                             </option>
-                        <% }) %>
+                            <% }) %>
                     </select>
                     <i class="bi bi-person form-icon"></i>
                 </div>
@@ -121,12 +118,15 @@
             background-color: #6f4e37;
             border: none;
         }
+
         .btn-coffee:hover {
             background-color: #563827;
         }
+
         .bg-coffee {
             background-color: #6f4e37 !important;
         }
+
         .form-icon {
             position: absolute;
             top: 50%;
@@ -134,20 +134,27 @@
             transform: translateY(-50%);
             color: #6f4e37;
         }
+
         .form-control.ps-4 {
             padding-left: 2.5rem !important;
         }
     </style>
 
     <!-- JavaScript Section -->
+    <div id="user-info" data-user='<%- JSON.stringify(products) %>'></div>
     <script>
+        const userDiv = document.getElementById("user-info");
+        const products = JSON.parse(userDiv.dataset.user);
+
+        console.log('Available products:', products);
         let cartItems = [];
 
         function loadProducts(categoryId = null) {
             console.log("Filtering products by category:", categoryId);
+            console.log("Filtering products by category:", products);
             let filteredProducts = products;
             if (categoryId) {
-                filteredProducts = products.filter(product => product.categoryId === categoryId);
+                filteredProducts = products.filter(product => product.categoryID == categoryId);
             }
             displayProducts(filteredProducts);
         }
@@ -160,7 +167,6 @@
                 const productCard = `
                     <div class="col-md-4 col-lg-3">
                         <div class="card h-100 shadow-sm border-0">
-                            <img class="card-img-top" src="${product.imageUrl}" alt="${product.name}">
                             <div class="card-body">
                                 <h5 class="card-title fw-bold">${product.name}</h5>
                                 <p class="card-text text-muted">
@@ -187,9 +193,11 @@
             attachCartEventListeners();
         }
 
+        displayProducts(products)
+
         function attachCartEventListeners() {
             document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const productId = this.getAttribute('data-id');
                     const productName = this.getAttribute('data-name');
                     const productPrice = this.getAttribute('data-price');
@@ -262,7 +270,7 @@
 
         function attachQuantityEventListeners() {
             document.querySelectorAll('.decrease-qty').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const productId = this.getAttribute('data-id');
                     const product = cartItems.find(item => item.id === productId);
 
@@ -274,7 +282,7 @@
             });
 
             document.querySelectorAll('.increase-qty').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const productId = this.getAttribute('data-id');
                     const product = cartItems.find(item => item.id === productId);
 
@@ -288,13 +296,13 @@
             });
         }
 
-        document.getElementById('cancel-order').addEventListener('click', function() {
+        document.getElementById('cancel-order').addEventListener('click', function () {
             if (confirm('Are you sure you want to cancel this order?')) {
                 cartItems = [];
                 updateCart();
             }
         });
-        document.getElementById('pay-button').addEventListener('click', async function() {
+        document.getElementById('pay-button').addEventListener('click', async function () {
             if (cartItems.length === 0) {
                 alert("Your cart is empty. Please add some products.");
                 return;
@@ -323,7 +331,7 @@
                     },
                     body: JSON.stringify(orderData)
                 });
-                console.log({response})
+                console.log({ response })
                 const data = await response.json();
 
                 if (data.success) {
@@ -343,4 +351,5 @@
     </script>
 
 </body>
+
 </html>

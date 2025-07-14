@@ -129,6 +129,7 @@ try {
     console.error("Error fetching transactions:", error);
 }
 
+
 res.render("dashboard", {
     path: "/app/dashboard",
     totalProduk,
