@@ -7,9 +7,11 @@ export const indexPage = async (req: Request, res: Response) => {
     const token = req.cookies.token;
     const result = await handleGetProducts(token)
     const products = result.data.data || []
+    const categories = await handleGetCategories(token)
     console.log({products})
     res.render("products", {
         products,
+        categories,
         path: "/app/products"  // Add this line
     })
 }
@@ -48,6 +50,17 @@ export const destroy = async (req: Request, res: Response) => {
 const handleGetProducts = async (token: string) => {
 
     const response = await fetcher('http://localhost:5272/api/Product', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
+const handleGetCategories = async (token: string) => {
+
+    const response = await fetcher('http://localhost:5272/api/Category', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`

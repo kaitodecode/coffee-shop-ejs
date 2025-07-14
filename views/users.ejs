@@ -51,22 +51,22 @@
                             <div class="modal-body">
                               <form action="/app/users/<%= user.id %>/update" method="post">
                                 <div class="mb-3 position-relative">
-                                  <label for="updateName<%= user.id %>" class="form-label fw-bold">Name</label>
+                                  <label for="updateName<%= user.id %>" class="form-label fw-bold text-start w-100">Name <span class="text-danger">*</span></label>
                                   <input type="text" class="form-control ps-4" id="updateName<%= user.id %>" name="name" value="<%= user.name %>" required>
                                   <i class="bi bi-person form-icon"></i>
                                 </div>
                                 <div class="mb-3 position-relative">
-                                  <label for="updateEmail<%= user.id %>" class="form-label fw-bold">Email</label>
+                                  <label for="updateEmail<%= user.id %>" class="form-label fw-bold text-start w-100">Email <span class="text-danger">*</span></label>
                                   <input type="email" class="form-control ps-4" id="updateEmail<%= user.id %>" name="email" value="<%= user.email %>" required>
                                   <i class="bi bi-envelope form-icon"></i>
                                 </div>
                                 <div class="mb-3 position-relative">
-                                  <label for="updatePassword<%= user.id %>" class="form-label fw-bold">Password</label>
+                                  <label for="updatePassword<%= user.id %>" class="form-label fw-bold text-start w-100">Password <span class="text-danger">*</span></label>
                                   <input type="password" class="form-control ps-4" id="updatePassword<%= user.id %>" name="password" placeholder="Enter new password or leave blank">
                                   <i class="bi bi-key form-icon"></i>
                                 </div>
                                 <div class="mb-3 position-relative">
-                                  <label for="updateIsAdmin<%= user.id %>" class="form-label fw-bold">Role</label>
+                                  <label for="updateIsAdmin<%= user.id %>" class="form-label fw-bold text-start w-100">Role <span class="text-danger">*</span></label>
                                   <select class="form-select ps-4" id="updateIsAdmin<%= user.id %>" name="isadmin" required>
                                     <option value="0" <%= user.isAdmin ? 'selected' : '' %>>Admin</option>
                                     <option value="1" <%= !user.isAdmin ? 'selected' : '' %>>Kasir</option>
@@ -101,22 +101,22 @@
         <div class="card-body">
           <form action="/app/users" method="post">
             <div class="mb-3 position-relative">
-              <label for="name" class="form-label fw-bold">Name</label>
+              <label for="name" class="form-label fw-bold">Name <span class="text-danger">*</span></label>
               <input type="text" class="form-control ps-4" id="name" name="name" placeholder="Enter user name" required>
               <i class="bi bi-person form-icon"></i>
             </div>
             <div class="mb-3 position-relative">
-              <label for="email" class="form-label fw-bold">Email</label>
+              <label for="email" class="form-label fw-bold">Email <span class="text-danger">*</span></label>
               <input type="email" class="form-control ps-4" id="email" name="email" placeholder="Enter user email" required>
               <i class="bi bi-envelope form-icon"></i>
             </div>
             <div class="mb-3 position-relative">
-              <label for="password" class="form-label fw-bold">Password</label>
+              <label for="password" class="form-label fw-bold">Password <span class="text-danger">*</span></label>
               <input type="password" class="form-control ps-4" id="password" name="password" placeholder="Enter password" required>
               <i class="bi bi-key form-icon"></i>
             </div>
             <div class="mb-3 position-relative">
-              <label for="isadmin" class="form-label fw-bold">Role</label>
+              <label for="isadmin" class="form-label fw-bold">Role <span class="text-danger">*</span></label>
               <select class="form-select ps-4" id="isadmin" name="isadmin" required>
                 <option value="0">Admin</option>
                 <option value="1">Kasir</option>

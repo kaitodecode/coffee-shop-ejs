@@ -19,7 +19,7 @@
                   <th class="py-3"><i class="bi bi-tag me-1"></i>Name</th>
                   <th class="py-3"><i class="bi bi-currency-dollar me-1"></i>Price</th>
                   <th class="py-3"><i class="bi bi-box me-1"></i>Stock</th>
-                  <th class="py-3"><i class="bi bi-folder me-1"></i>Category ID</th>
+                  <th class="py-3"><i class="bi bi-folder me-1"></i>Category</th>
                   <th class="text-center py-3"><i class="bi bi-gear me-1"></i>Actions</th>
                 </tr>
               </thead>
@@ -29,7 +29,7 @@
                     <td class="fw-medium"><%= Product.name %></td>
                     <td>Rp <%= Product.price %></td>
                     <td><%= Product.stock %></td>
-                    <td><%= Product.categoryid %></td>
+                    <td><%= Product.category.name %></td>
                     <td class="text-center">
                       <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal<%= Product.id %>">
@@ -52,24 +52,28 @@
                             </div>
                             <div class="modal-body">
                               <form action="/app/products/update/<%= Product.id %>" method="post">
-                                <div class="mb-3 position-relative">
-                                  <label for="updateName<%= Product.id %>" class="form-label fw-bold">Name</label>
+                                <div class="mb-3 position-relative text-start">
+                                  <label for="updateName<%= Product.id %>" class="form-label fw-bold">Name <span class="text-danger">*</span></label>
                                   <input type="text" class="form-control ps-4" id="updateName<%= Product.id %>" name="name" value="<%= Product.name %>" required>
                                   <i class="bi bi-tag form-icon"></i>
                                 </div>
-                                <div class="mb-3 position-relative">
-                                  <label for="updatePrice<%= Product.id %>" class="form-label fw-bold">Price</label>
+                                <div class="mb-3 position-relative text-start">
+                                  <label for="updatePrice<%= Product.id %>" class="form-label fw-bold">Price <span class="text-danger">*</span></label>
                                   <input type="number" class="form-control ps-4" id="updatePrice<%= Product.id %>" name="price" value="<%= Product.price %>" required>
                                   <i class="bi bi-currency-dollar form-icon"></i>
                                 </div>
-                                <div class="mb-3 position-relative">
-                                  <label for="updateStock<%= Product.id %>" class="form-label fw-bold">Stock</label>
+                                <div class="mb-3 position-relative text-start">
+                                  <label for="updateStock<%= Product.id %>" class="form-label fw-bold">Stock <span class="text-danger">*</span></label>
                                   <input type="number" class="form-control ps-4" id="updateStock<%= Product.id %>" name="stock" value="<%= Product.stock %>" required>
                                   <i class="bi bi-box form-icon"></i>
                                 </div>
-                                <div class="mb-3 position-relative">
-                                  <label for="updateCategoryID<%= Product.id %>" class="form-label fw-bold">Category ID</label>
-                                  <input type="number" class="form-control ps-4" id="updateCategoryID<%= Product.id %>" name="categoryid" value="<%= Product.categoryID %>" required>
+                                <div class="mb-3 position-relative text-start">
+                                  <label for="updateCategoryID<%= Product.id %>" class="form-label fw-bold">Category <span class="text-danger">*</span></label>
+                                  <select class="form-select ps-4" id="updateCategoryID<%= Product.id %>" name="categoryid" required>
+                                    <% categories.data.data.forEach(category => { %>
+                                      <option value="<%= category.id %>" <%= Product.categoryID === category.id ? 'selected' : '' %>><%= category.name %></option>
+                                    <% }) %>
+                                  </select>
                                   <i class="bi bi-folder form-icon"></i>
                                 </div>
                                 <div class="text-end">
@@ -100,23 +104,28 @@
         <div class="card-body">
           <form action="/app/products" method="post">
             <div class="mb-3 position-relative">
-              <label for="name" class="form-label fw-bold">Name</label>
+              <label for="name" class="form-label fw-bold">Name <span class="text-danger">*</span></label>
               <input type="text" class="form-control ps-4" id="name" name="name" placeholder="Enter product name" required>
               <i class="bi bi-tag form-icon"></i>
             </div>
             <div class="mb-3 position-relative">
-              <label for="price" class="form-label fw-bold">Price</label>
+              <label for="price" class="form-label fw-bold">Price <span class="text-danger">*</span></label>
               <input type="number" class="form-control ps-4" id="price" name="price" placeholder="Enter price" required>
               <i class="bi bi-currency-dollar form-icon"></i>
             </div>
             <div class="mb-3 position-relative">
-              <label for="stock" class="form-label fw-bold">Stock</label>
+              <label for="stock" class="form-label fw-bold">Stock <span class="text-danger">*</span></label>
               <input type="number" class="form-control ps-4" id="stock" name="stock" placeholder="Enter stock quantity" required>
               <i class="bi bi-box form-icon"></i>
             </div>
             <div class="mb-3 position-relative">
-              <label for="categoryid" class="form-label fw-bold">Category ID</label>
-              <input type="number" class="form-control ps-4" id="categoryid" name="categoryid" placeholder="Enter category ID" required>
+              <label for="categoryid" class="form-label fw-bold">Category <span class="text-danger">*</span></label>
+              <select class="form-select ps-4" id="categoryid" name="categoryid" required>
+                <option value="" disabled selected>Select a category</option>
+                <% categories.data.data.forEach(category => { %>
+                  <option value="<%= category.id %>"><%= category.name %></option>
+                <% }) %>
+              </select>
               <i class="bi bi-folder form-icon"></i>
             </div>
             <button type="submit" class="btn btn-coffee w-100 text-white">

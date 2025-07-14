@@ -91,17 +91,17 @@
                                   <form action="/app/customers" method="post">
                                     <input type="text" name="id" id="id" hidden value="<%= customer.id %>">
                                     <div class="mb-3 position-relative">
-                                      <label for="updateName<%= customer.id %>" class="form-label fw-bold">Name</label>
+                                      <label for="updateName<%= customer.id %>" class="form-label fw-bold">Name <span class="text-danger">*</span></label>
                                       <input type="text" class="form-control ps-4" id="updateName<%= customer.id %>" name="name" value="<%= customer.name %>" required>
                                       <i class="bi bi-person form-icon"></i>
                                     </div>
                                     <div class="mb-3 position-relative">
-                                      <label for="updatePhone<%= customer.id %>" class="form-label fw-bold">Phone</label>
+                                      <label for="updatePhone<%= customer.id %>" class="form-label fw-bold">Phone <span class="text-danger">*</span></label>
                                       <input type="text" class="form-control ps-4" id="updatePhone<%= customer.id %>" name="phone" value="<%= customer.phone %>" required>
                                       <i class="bi bi-telephone form-icon"></i>
                                     </div>
                                     <div class="mb-3 position-relative">
-                                      <label for="updateEmail<%= customer.id %>" class="form-label fw-bold">Email</label>
+                                      <label for="updateEmail<%= customer.id %>" class="form-label fw-bold">Email <span class="text-danger">*</span></label>
                                       <input type="email" class="form-control ps-4" id="updateEmail<%= customer.id %>" name="email" value="<%= customer.email %>" required>
                                       <i class="bi bi-envelope form-icon"></i>
                                     </div>
@@ -141,17 +141,17 @@
           <div class="card-body">
             <form action="/app/customers" method="post">
               <div class="mb-3 position-relative">
-                <label for="name" class="form-label fw-bold">Name</label>
+                <label for="name" class="form-label fw-bold">Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control ps-4" id="name" name="name" placeholder="Enter customer name" required>
                 <i class="bi bi-person form-icon"></i>
               </div>
               <div class="mb-3 position-relative">
-                <label for="phone" class="form-label fw-bold">Phone</label>
+                <label for="phone" class="form-label fw-bold">Phone <span class="text-danger">*</span></label>
                 <input type="text" class="form-control ps-4" id="phone" name="phone" placeholder="Enter phone number" required>
                 <i class="bi bi-telephone form-icon"></i>
               </div>
               <div class="mb-3 position-relative">
-                <label for="email" class="form-label fw-bold">Email</label>
+                <label for="email" class="form-label fw-bold">Email <span class="text-danger">*</span></label>
                 <input type="email" class="form-control ps-4" id="email" name="email" placeholder="Enter email address" required>
                 <i class="bi bi-envelope form-icon"></i>
               </div>

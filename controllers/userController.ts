@@ -97,6 +97,7 @@ const handleCreateUsers = async (token: string, body: any) => {
         method: 'POST',
         body: JSON.stringify(body)
     });
+    console.log(response)
     return response.json();
 }
 

@@ -9,12 +9,7 @@ import { pageNotFound } from "./controllers/errorController";
 import { authMiddleware } from "./middlewares/auth_middleware";
 import cors from "cors"
 const app = express()
-app.use(cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders: "Content-Type, Authorization",
-}))
+
 const PORT = 3000
 
 app.set('view engine', 'ejs');

@@ -29,10 +29,10 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
             const {role} = user
             console.log({role});
             if (user.role != "Admin" && req.path === "/app/categories") {
-                return res.redirect("/app/dashboard");
+                return res.redirect("/app/errors/403");
             }
             if (user.role != "Admin" && req.path === "/app/users") {
-                return res.redirect("/app/dashboard");
+                return res.redirect("/app/errors/403");
             }
             next();
         } catch (error) {

@@ -50,12 +50,12 @@
                               <form action="/app/categories" method="post">
                                 <input type="hidden" name="id" value="<%= category.id %>">
                                 <div class="mb-3 position-relative">
-                                  <label for="updateName<%= category.id %>" class="form-label fw-bold">Name</label>
+                                  <label for="updateName<%= category.id %>" class="form-label fw-bold text-start w-100">Name <span class="text-danger">*</span></label>
                                   <input type="text" class="form-control ps-4" id="updateName<%= category.id %>" name="name" value="<%= category.name %>" required>
                                   <i class="bi bi-tag form-icon"></i>
                                 </div>
                                 <div class="mb-3 position-relative">
-                                  <label for="updateDescription<%= category.id %>" class="form-label fw-bold">Description</label>
+                                  <label for="updateDescription<%= category.id %>" class="form-label fw-bold text-start w-100">Description <span class="text-danger">*</span></label>
                                   <textarea class="form-control ps-4" id="updateDescription<%= category.id %>" name="description" rows="3" required><%= category.description %></textarea>
                                   <i class="bi bi-card-text form-icon"></i>
                                 </div>
@@ -87,12 +87,12 @@
         <div class="card-body">
           <form action="/app/categories" method="post">
             <div class="mb-3 position-relative">
-              <label for="name" class="form-label fw-bold">Name</label>
+              <label for="name" class="form-label fw-bold">Name<span class="text-danger">*</span></label>
               <input type="text" class="form-control ps-4" id="name" name="name" placeholder="Enter category name" required>
               <i class="bi bi-tag form-icon"></i>
             </div>
             <div class="mb-3 position-relative">
-              <label for="description" class="form-label fw-bold">Description</label>
+              <label for="description" class="form-label fw-bold">Description<span class="text-danger">*</span></label>
               <textarea class="form-control ps-4" id="description" name="description" rows="3" placeholder="Enter category description" required></textarea>
               <i class="bi bi-card-text form-icon"></i>
             </div>

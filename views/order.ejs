@@ -4,281 +4,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Produk</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Order Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-    <!-- Tombol Back -->
-    <header class="bg-dark text-white text-center py-3 position-relative">
-        <h1>Order Produk Coffee Shop</h1>
+    <header class="bg-coffee text-white text-center py-4">
+        <h1 class="display-5 fw-semibold"><i class="bi bi-cart3 me-2"></i>Order Products</h1>
+        <p class="text-white-50">Select your favorite coffee and beverages</p>
     </header>
 
-    <main class="container mt-4">
-        <!-- Kategori Menu -->
-        <div class="category-menu-container">
-            <button class="scroll-button scroll-left">←</button>
-            <div class="category-menu">
-                <a href="javascript:void(0);" class="btn btn-outline-light mx-2" onclick="loadProducts()">Semua</a>
-                <% categories.forEach(category=> { %>
-                    <a href="javascript:void(0);" class="btn btn-outline-light mx-2"
-                        onclick="loadProducts('<%= category.id %>')">
-                        <%= category.name %>
-                    </a>
+    <div class="container py-5">
+        <!-- Category Menu -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-2 overflow-auto py-2">
+                    <button class="btn btn-coffee text-white" onclick="loadProducts()">
+                        <i class="bi bi-grid-fill me-1"></i>All
+                    </button>
+                    <% categories.forEach(category => { %>
+                        <button class="btn btn-coffee text-white" onclick="loadProducts('<%= category.id %>')">
+                            <i class="bi bi-tag-fill me-1"></i><%= category.name %>
+                        </button>
                     <% }) %>
+                </div>
             </div>
-            <button class="scroll-button scroll-right">→</button>
         </div>
 
-        <!-- Produk List -->
-        <div id="products-container" class="row">
-            <% products.forEach(product=> { %>
-                <div class="col-md-4 mb-3">
-                    <div class="card">
+        <!-- Products Grid -->
+        <div id="products-container" class="row g-4 mb-4">
+            <% products.forEach(product => { %>
+                <div class="col-md-4 col-lg-3">
+                    <div class="card h-100 shadow-sm border-0">
                         <img class="card-img-top" src="<%= product.imageUrl %>" alt="<%= product.name %>">
                         <div class="card-body">
-                            <h5 class="card-title">
-                                <%= product.name %>
-                            </h5>
-                            <p class="card-text">Harga: Rp <%= product.price.toLocaleString() %>
+                            <h5 class="card-title fw-bold"><%= product.name %></h5>
+                            <p class="card-text text-muted">
+                                <i class="bi bi-tag-fill me-1"></i>Rp <%= product.price.toLocaleString() %>
                             </p>
-                            <p class="stock">Stok: <%= product.stock %> tersedia</p>
-                            <button class="btn btn-primary add-to-cart" data-id="<%= product.id %>"
-                                data-name="<%= product.name %>" data-price="<%= product.price %>"
-                                data-stock="<%= product.stock %>">Add to Cart</button>
+                            <p class="card-text text-muted">
+                                <i class="bi bi-box-seam me-1"></i>Stock: <%= product.stock %>
+                            </p>
+                            <button class="btn btn-coffee w-100 text-white add-to-cart" 
+                                    data-id="<%= product.id %>"
+                                    data-name="<%= product.name %>" 
+                                    data-price="<%= product.price %>"
+                                    data-stock="<%= product.stock %>">
+                                <i class="bi bi-cart-plus me-1"></i>Add to Cart
+                            </button>
                         </div>
                     </div>
                 </div>
-                <% }) %>
+            <% }) %>
         </div>
 
-        <!-- Keranjang Belanja -->
-        <div class="card mt-4">
+        <!-- Shopping Cart -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-coffee text-white">
+                <h5 class="mb-0"><i class="bi bi-cart-check me-2"></i>Checkout</h5>
+            </div>
             <div class="card-body">
-                <h5 class="card-title">Checkout</h5>
-                <div class="form-group">
-                    <label for="customer-select">Pilih Customer</label>
-                    <select id="customer-select" class="form-control">
-                        <option value="">-- Pilih Customer --</option>
-                        <% customers.forEach(customer=> { %>
+                <div class="mb-4 position-relative">
+                    <label for="customer-select" class="form-label fw-bold">Select Customer</label>
+                    <select id="customer-select" class="form-control ps-4">
+                        <option value="">-- Select Customer --</option>
+                        <% customers.forEach(customer => { %>
                             <option value="<%= customer.id %>">
                                 <%= customer.name %> - <%= customer.phone %> - <%= customer.email %>
                             </option>
-                            <% }) %>
+                        <% }) %>
                     </select>
+                    <i class="bi bi-person form-icon"></i>
                 </div>
+
                 <div id="cart-message">
-                    <p id="empty-cart-message" class="text-center text-danger" style="display: none;">Anda belum memilih
-                        menu.</p>
+                    <p id="empty-cart-message" class="text-center text-danger" style="display: none;">
+                        <i class="bi bi-exclamation-circle me-1"></i>Your cart is empty
+                    </p>
                 </div>
-                <table class="table" id="cart-table" style="display: none;">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>QTY</th>
-                            <th>Price</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cart-items"></tbody>
-                </table>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle" id="cart-table" style="display: none;">
+                        <thead class="bg-light">
+                            <tr>
+                                <th><i class="bi bi-cup-hot me-1"></i>Product</th>
+                                <th class="text-center"><i class="bi bi-123 me-1"></i>Quantity</th>
+                                <th><i class="bi bi-tag me-1"></i>Price</th>
+                                <th><i class="bi bi-cash me-1"></i>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-items"></tbody>
+                    </table>
+                </div>
+
                 <hr>
-                <div class="d-flex justify-content-between mt-4">
-                    <button class="btn btn-danger" id="cancel-order">Cancel Order</button>
-                    <button class="btn btn-success" id="pay-button">Pay</button>
+                <div class="d-flex justify-content-end gap-2">
+                    <button class="btn btn-danger" id="cancel-order">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button class="btn btn-coffee text-white" id="pay-button">
+                        <i class="bi bi-credit-card me-1"></i>Pay Now
+                    </button>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <footer class="bg-dark text-white text-center py-3 mt-5">
-        <p>&copy; Coffee Shop</p>
+    <footer class="bg-coffee text-white text-center py-3">
+        <p class="mb-0">&copy; 2024 Coffee Shop. All rights reserved.</p>
     </footer>
+
+    <style>
+        .btn-coffee {
+            background-color: #6f4e37;
+            border: none;
+        }
+        .btn-coffee:hover {
+            background-color: #563827;
+        }
+        .bg-coffee {
+            background-color: #6f4e37 !important;
+        }
+        .form-icon {
+            position: absolute;
+            top: 50%;
+            left: 0.9rem;
+            transform: translateY(-50%);
+            color: #6f4e37;
+        }
+        .form-control.ps-4 {
+            padding-left: 2.5rem !important;
+        }
+    </style>
 
     <!-- JavaScript Section -->
     <script>
         let cartItems = [];
 
-        // Fungsi untuk memuat produk berdasarkan kategori
         function loadProducts(categoryId = null) {
-            console.log("Filter produk berdasarkan kategori:", categoryId);
-
-            // Filter produk berdasarkan categoryId jika ada
+            console.log("Filtering products by category:", categoryId);
             let filteredProducts = products;
-
             if (categoryId) {
                 filteredProducts = products.filter(product => product.categoryId === categoryId);
             }
-
             displayProducts(filteredProducts);
         }
 
         function displayProducts(productsToDisplay) {
             const productsContainer = document.getElementById('products-container');
-            productsContainer.innerHTML = ''; // Reset tampilan produk
+            productsContainer.innerHTML = '';
 
             productsToDisplay.forEach(product => {
                 const productCard = `
-            <div class="col-md-4 mb-3">
-                <div class="card">
-                    <img class="card-img-top" src="${product.imageUrl}" alt="${product.name}">
-                    <div class="card-body">
-                        <h5 class="card-title">${product.name}</h5>
-                        <p class="card-text">Harga: Rp ${product.price.toLocaleString()}</p>
-                        <p class="stock">Stok: ${product.stock} tersedia</p>
-                        <button class="btn btn-primary add-to-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-stock="${product.stock}">Add to Cart</button>
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card h-100 shadow-sm border-0">
+                            <img class="card-img-top" src="${product.imageUrl}" alt="${product.name}">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">${product.name}</h5>
+                                <p class="card-text text-muted">
+                                    <i class="bi bi-tag-fill me-1"></i>Rp ${product.price.toLocaleString()}
+                                </p>
+                                <p class="card-text text-muted">
+                                    <i class="bi bi-box-seam me-1"></i>Stock: ${product.stock}
+                                </p>
+                                <button class="btn btn-coffee w-100 text-white add-to-cart" 
+                                        data-id="${product.id}"
+                                        data-name="${product.name}" 
+                                        data-price="${product.price}"
+                                        data-stock="${product.stock}">
+                                    <i class="bi bi-cart-plus me-1"></i>Add to Cart
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        `;
+                `;
                 productsContainer.innerHTML += productCard;
+            });
+
+            // Reattach event listeners
+            attachCartEventListeners();
+        }
+
+        function attachCartEventListeners() {
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    const productName = this.getAttribute('data-name');
+                    const productPrice = this.getAttribute('data-price');
+                    const productStock = parseInt(this.getAttribute('data-stock'));
+
+                    const existingProduct = cartItems.find(item => item.id === productId);
+                    if (existingProduct) {
+                        if (existingProduct.quantity < productStock) {
+                            existingProduct.quantity += 1;
+                        } else {
+                            alert("Insufficient stock for this product.");
+                        }
+                    } else {
+                        if (productStock > 0) {
+                            cartItems.push({
+                                id: productId,
+                                name: productName,
+                                price: productPrice,
+                                stock: productStock,
+                                quantity: 1
+                            });
+                        } else {
+                            alert("Product is out of stock.");
+                        }
+                    }
+
+                    updateCart();
+                });
             });
         }
 
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', function () {
-                const productId = this.getAttribute('data-id');
-                const productName = this.getAttribute('data-name');
-                const productPrice = this.getAttribute('data-price');
-                const productStock = parseInt(this.getAttribute('data-stock'));
+        function updateCart() {
+            const cartTable = document.getElementById('cart-items');
+            cartTable.innerHTML = '';
 
-                const existingProduct = cartItems.find(item => item.id === productId);
-                if (existingProduct) {
-                    if (existingProduct.quantity < productStock) {
-                        existingProduct.quantity += 1; // Tambah jumlah jika produk sudah ada dan stok masih tersedia
-                    } else {
-                        alert("Stok tidak cukup untuk produk ini.");
-                    }
-                } else {
-                    if (productStock > 0) {
-                        cartItems.push({
-                            id: productId,
-                            name: productName,
-                            price: productPrice,
-                            stock: productStock,
-                            quantity: 1
-                        });
-                    } else {
-                        alert("Stok tidak cukup untuk produk ini.");
-                    }
-                }
-
-                updateCart();
+            cartItems.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="fw-medium">${item.name}</td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-coffee text-white decrease-qty" data-id="${item.id}">
+                                <i class="bi bi-dash"></i>
+                            </button>
+                            <span class="btn btn-sm btn-light disabled">${item.quantity}</span>
+                            <button class="btn btn-sm btn-coffee text-white increase-qty" data-id="${item.id}">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td>Rp ${item.price.toLocaleString()}</td>
+                    <td>Rp ${(item.price * item.quantity).toLocaleString()}</td>
+                `;
+                cartTable.appendChild(row);
             });
-        });
 
+            const cartMessage = document.getElementById('empty-cart-message');
+            const cartTableContainer = document.getElementById('cart-table');
 
-        // Update tampilan keranjang
-function updateCart() {
-    const cartTable = document.getElementById('cart-items');
-    cartTable.innerHTML = ''; // Reset table
-
-    cartItems.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.name}</td>
-            <td>
-                <button class="btn btn-sm btn-secondary decrease-qty" data-id="${item.id}">-</button>
-                ${item.quantity}
-                <button class="btn btn-sm btn-secondary increase-qty" data-id="${item.id}">+</button>
-            </td>
-            <td>Rp ${item.price.toLocaleString()}</td>
-            <td>Rp ${(item.price * item.quantity).toLocaleString()}</td>
-        `;
-        cartTable.appendChild(row);
-    });
-
-    // Tampilkan tabel jika ada barang di keranjang
-    const cartMessage = document.getElementById('empty-cart-message');
-    const cartTableContainer = document.getElementById('cart-table');
-
-    if (cartItems.length === 0) {
-        cartMessage.style.display = 'block';
-        cartTableContainer.style.display = 'none';
-    } else {
-        cartMessage.style.display = 'none';
-        cartTableContainer.style.display = 'table';
-    }
-
-    // Tambahkan event listener untuk tombol - dan +
-    document.querySelectorAll('.decrease-qty').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.getAttribute('data-id');
-            const product = cartItems.find(item => item.id === productId);
-
-            if (product && product.quantity > 1) {
-                product.quantity -= 1; // Kurangi jumlah
-                updateCart(); // Update tampilan keranjang
-            }
-        });
-    });
-
-    document.querySelectorAll('.increase-qty').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.getAttribute('data-id');
-            const product = cartItems.find(item => item.id === productId);
-
-            if (product && product.quantity < product.stock) {
-                product.quantity += 1; // Tambah jumlah
-                updateCart(); // Update tampilan keranjang
-            } else {
-                alert("Stok tidak cukup untuk menambah produk ini.");
-            }
-        });
-    });
-}
-
-        // Pembatalan pesanan
-        document.getElementById('cancel-order').addEventListener('click', function () {
-            cartItems = []; // Kosongkan keranjang
-            updateCart(); // Update tampilan keranjang
-        });
-
-        document.getElementById('pay-button').addEventListener('click', function () {
             if (cartItems.length === 0) {
-                alert("Keranjang Anda kosong. Silakan pilih produk.");
+                cartMessage.style.display = 'block';
+                cartTableContainer.style.display = 'none';
             } else {
-                const customerId = document.getElementById('customer-select').value;
-                if (!customerId) {
-                    alert("Silakan pilih customer.");
-                    return;
-                }
+                cartMessage.style.display = 'none';
+                cartTableContainer.style.display = 'table';
+            }
 
-                const orderData = {
-                    customerId: customerId,
-                    orderItems: cartItems.map(item => ({
-                        productId: item.id,
-                        quantity: item.quantity
-                    }))
-                };
+            attachQuantityEventListeners();
+        }
 
-                // Kirim data ke API
-                fetch('http://localhost:5272/api/order', {
+        function attachQuantityEventListeners() {
+            document.querySelectorAll('.decrease-qty').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    const product = cartItems.find(item => item.id === productId);
+
+                    if (product && product.quantity > 1) {
+                        product.quantity -= 1;
+                        updateCart();
+                    }
+                });
+            });
+
+            document.querySelectorAll('.increase-qty').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    const product = cartItems.find(item => item.id === productId);
+
+                    if (product && product.quantity < product.stock) {
+                        product.quantity += 1;
+                        updateCart();
+                    } else {
+                        alert("Maximum stock limit reached.");
+                    }
+                });
+            });
+        }
+
+        document.getElementById('cancel-order').addEventListener('click', function() {
+            if (confirm('Are you sure you want to cancel this order?')) {
+                cartItems = [];
+                updateCart();
+            }
+        });
+        document.getElementById('pay-button').addEventListener('click', async function() {
+            if (cartItems.length === 0) {
+                alert("Your cart is empty. Please add some products.");
+                return;
+            }
+
+            const customerId = document.getElementById('customer-select').value;
+            if (!customerId) {
+                alert("Please select a customer.");
+                return;
+            }
+
+            const orderData = {
+                customerId: customerId,
+                orderItems: cartItems.map(item => ({
+                    productId: item.id,
+                    quantity: item.quantity
+                }))
+            };
+
+            try {
+                const response = await fetch('http://localhost:5272/api/Order', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer <%= token %>`
                     },
                     body: JSON.stringify(orderData)
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert("Pembayaran berhasil, pesanan dibuat!");
-                            cartItems = []; // Kosongkan keranjang
-                            updateCart();  // Update tampilan keranjang
-                        } else {
-                            alert("Terjadi kesalahan saat membuat pesanan.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert("Terjadi kesalahan saat mengirim pesanan.");
-                    });
+                });
+                console.log({response})
+                const data = await response.json();
+
+                if (data.success) {
+                    alert("Payment successful! Order has been created.");
+                    cartItems = [];
+                    updateCart();
+                } else {
+                    alert("Error creating order: " + (data.message || "Unknown error"));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert("Error processing order. Please try again later.");
             }
         });
-
+        // Initialize cart
+        attachCartEventListeners();
     </script>
 
 </body>
-
 </html>

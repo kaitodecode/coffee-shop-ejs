@@ -62,8 +62,8 @@ export const dashboardPage = async (req: Request, res: Response) => {
     const totalTransaction = {
         qty: orderData?.length || 0,
         total: orderData?.length > 0
-            ? Number((orderData.reduce((acc: number, order: { total: number }) =>
-                acc + (order?.total || 0), 0) / orderData.length).toFixed(2))
+            ? Number(orderData.reduce((acc: number, order: { total: number }) =>
+                acc + (order?.total || 0), 0).toFixed(2))
             : 0,
     }
 
@@ -95,7 +95,7 @@ export const dashboardPage = async (req: Request, res: Response) => {
         const date = new Date(order.orderDate).toLocaleDateString('en-US', { weekday: 'long' });
         acc[date] = (acc[date] || 0) + order.total;
         return acc;
-    }, {...daysOfWeek}); // Spread the daysOfWeek object as initial value
+    }, { ...daysOfWeek }); // Spread the daysOfWeek object as initial value
 
     // Prepare chart data
     const chart = {
@@ -109,13 +109,34 @@ export const dashboardPage = async (req: Request, res: Response) => {
         totalOrders: orderData?.length || 0
     });
 
-    res.render("dashboard", {
-        path: "/app/dashboard",
-        totalProduk,
-        totalTransaction,
-        rataTerjual,
-        orderData: orderData || [],
-        productData: productData || [],
-        chart // Add chart data to the response
+let transactions = [];
+try {
+    const response = await fetch("http://localhost:5272/api/Order", {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${req.cookies.token}`,
+            'Accept': 'application/json'
+        }
     });
+
+    if (response.ok) {
+        const result = await response.json();
+        transactions = result.data || [];
+    } else {
+        console.warn(`Failed to fetch transactions. Status: ${response.status}`);
+    }
+} catch (error) {
+    console.error("Error fetching transactions:", error);
+}
+
+res.render("dashboard", {
+    path: "/app/dashboard",
+    totalProduk,
+    totalTransaction,
+    rataTerjual,
+    orderData: orderData || [],
+    productData: productData || [],
+    chart, // Add chart data to the response
+    transactions
+});
 }

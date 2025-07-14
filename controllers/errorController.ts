@@ -15,3 +15,6 @@ export const unauthorized = (req: Request, res: Response) => {
     res.render("errors/401",{path:"/errors/401"})
 }
 
+export const forbidden = (req: Request, res: Response) => {
+    res.render("errors/403", {path:"/errors/403"})
+}

@@ -100,7 +100,8 @@ export const orderPage = async (req: express.Request, res: express.Response) => 
             selectedCategoryId: selectedCategoryId,
             orders: orderData.data,  // Mengirim data pesanan
             cartItems: cartItems,    // Mengirim data keranjang belanja
-            customers: customerData.data  // Mengirim data customer
+            customers: customerData.data, // Mengirim data customer,
+            token: req.cookies.token
         });
 
     } catch (error) {
